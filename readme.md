@@ -1,11 +1,14 @@
 # Pygame 2D Animation System Based from Royal Ordains
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/ItCD9LBsJzA)](https://youtu.be/ItCD9LBsJzA)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/i3qEavBUuGs)](https://youtu.be/i3qEavBUuGs)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/rsZd_9TWNCk)](https://youtu.be/rsZd_9TWNCk)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/OLXNAn7SvRY)](https://youtu.be/OLXNAn7SvRY)
 
 For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
 page.
 
-Maybe I will keep expanding on it enough into a full story game in the future. Will see.
+Maybe I will keep expanding on it enough into a full story game beyond Elden Ring fan animation in the future. Will see.
 
 Discord channel: [![github](https://github.com/remance/preview/blob/main/discord_logo.png?raw=true)][1]
 
