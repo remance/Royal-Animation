@@ -5,6 +5,12 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/rsZd_9TWNCk)](https://youtu.be/rsZd_9TWNCk)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OLXNAn7SvRY)](https://youtu.be/OLXNAn7SvRY)
 
+
+
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>   
+
+
 For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
 page.
 
@@ -70,14 +76,6 @@ Discord channel: [![github](https://github.com/remance/preview/blob/main/discord
 ### Ambient
 - Windy, forest ambient by Pixabay (https://pixabay.com/users/pixabay-1/) 
 - Heavy rain weather ambient sound by lebaston100 (https://freesound.org/people/lebaston100/)
-
-[//]: # (## Translation)
-
-[//]: # (## Help with game coding and bugs fixed:)
-
-[//]: # ()
-[//]: # (-  coppermouse &#40;https://github.com/coppermouse&#41;)
-
 
 [1]: https://discord.gg/q7yxz4netf
 
