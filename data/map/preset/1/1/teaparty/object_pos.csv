@@ -1,0 +1,8 @@
+"ID","Object","Type","POS","Property"
+1,"Teaparty_1","scene:1","1",
+2,"Teaparty_2","scene:2","1",
+3,"Chair","object","1630,1370","scene:1,width_scale:0.8,height_scale:0.8"
+4,"Dream Swirl1","rotate_object","1250,485","scene:1,angle:60"
+5,"Dream Swirl1","rotate_object","2527,770","scene:1"
+6,"Dream Swirl1","rotate_object","1730,800","scene:1,angle:130"
+7,"Dream Swirl1","rotate_object","1983,382","scene:1,angle:210"

@@ -1,0 +1,17 @@
+"ID","Name","Spawn Rate","Travel Speed","Wind Strength","Spell","Ambient","Property"
+1,"Clear Sky",0,0,1,,,
+2,"Snow",0.3,60,2,,,
+3,"Foggy",0,100,2,,,
+4,"Rain",0.03,400,3,,"rain",
+5,"Cloudy",0,0,1,,,
+6,"Thunder Storm",0.01,400,5,,"storm",
+7,"Hail",0.3,500,1,,"hail",
+8,"Windy",0.4,,7,,"windy",
+9,"Wet Fog",0,100,1,,,
+10,"Acid Rain",0.1,400,3,,"rain",
+11,"Sandstorm",,0,5,,"windy",
+12,"Blood Rain",0.1,400,3,,"rain",
+13,"Thundersnow",0.3,60,4,,,
+14,"Blood Snow",0.3,60,2,,,
+15,"Dark Snow",0.3,60,2,,,
+"Red Leaf","Red Leaf",1.5,40,1,,,"random sprite angle"

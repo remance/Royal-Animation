@@ -1,0 +1,163 @@
+"ID","Text ID","Object","Animation","Type","Trigger","Property"
+"event",,"Bluedream",,"music","start,all",
+,,"Miqqy",,"hide",,
+,,"Lacrima",,"hide",,
+,,"camera","blackout","cutscene",,"timer:1,instant fade,wait,fade"
+,,"Rabbit","teaparty_appear",,,
+,,"Rabbit","teaparty_idle","idle",,
+,,"Lacrima",,"show",,
+,,"Lacrima","teaparty_appear",,,"wait"
+,,"Lacrima","teaparty_jump",,,"POS:(2220;1290),speed:1000,wait"
+,,"Trina","teaparty_wow",,,
+,,"Lacrima","teaparty_land",,,"wait"
+,,"camera","wait","cutscene",,"timer:1,wait"
+,,"Lacrima","teaparty_smilerub","idle",,
+,,"Lacrima","teaparty_smilerub_prepare",,,
+,,"Trina","teaparty_talkrub","idle",,
+,,"Trina","teaparty_talkrub_prepare",,,"wait"
+,"teaparty/1","Trina",,,,"timer:4,wait,voice:(Parchment_write;3000;0)"
+,,"Trina","teaparty_rub","idle",,
+,"teaparty/2","Rabbit","teaparty_meep",,,"timer:2,hold,wait,voice:(Meep;3000;0),next action:{name=teaparty_meep;reverse}"
+,"teaparty/3","Lacrima",,,,"timer:2,wait,voice:(Meow;3000;0)"
+,,"Lacrima","teaparty_idle","idle",,
+,,"Lacrima","teaparty_smilerub_prepare",,,"reverse"
+,,"Trina","teaparty_idle","idle",,
+,"teaparty/4","Trina","teaparty_talkup",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talkup_end}"
+,,"Sun","Nod",,,
+,,"Moon","Nod",,,"wait"
+,,"Miqqy",,"show",,
+,,"Miqqy","teaparty_arrive",,,"wait"
+,"teaparty/5","Miqqy","teaparty_arrivetalk",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,,"Miqqy","teaparty_arrivewait",,,"hold,repeat after"
+,,"Moon",,,,"angle:90"
+,,"Rabbit","teaparty_idle2","idle",,
+,,"Rabbit","teaparty_greet",,,
+,,"Lacrima","teaparty_smile",,,
+,"teaparty/6","Trina","teaparty_greet",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_greet;reverse}"
+,,"Miqqy","teaparty_arrivewalk_prepare",,,
+,,"Miqqy","teaparty_arrivewalk",,,"POS:(1640;1390),speed:150,wait"
+,,"Miqqy","teaparty_idle","idle",,
+,,"Rabbit","teaparty_idle","idle",,
+,,"Rabbit","teaparty_faceback",,,
+,,"Miqqy","teaparty_arrivesit",,,"wait"
+,,"Moon",,,,"angle:-90"
+,"teaparty/7","Miqqy","teaparty_talk1",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,"teaparty/8","Miqqy","teaparty_talk2",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,"teaparty/9","Miqqy","teaparty_talk3",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk3_end}"
+,,"Sun","Nod",,,
+,,"Moon","Nod",,,
+,,"Rabbit","teaparty_smile",,,
+,,"Lacrima","teaparty_nod",,,
+,"teaparty/10","Trina","teaparty_talk",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk;reverse}"
+,"teaparty/11","Miqqy","teaparty_talk4",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,"teaparty/12","Miqqy","teaparty_teasummon_prepare",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,,"Whitedream",,"music",,
+,,"Miqqy","teaparty_teasummon",,,"wait"
+,,"Miqqy","teaparty_idle2","idle",,
+,,"Moon","teaparty_idle2","idle",,
+,,"Sun","teaparty_idle2","idle",,
+,,"Rabbit","teaparty_idle3","idle",,
+,,"Lacrima","teaparty_idle2","idle",,
+,,"Trina","teaparty_idle2","idle",,
+,,"Miqqy","teaparty_teapop",,,
+,,"Moon","teaparty_teapop",,,
+,,"Sun","teaparty_teapop",,,
+,,"Rabbit","teaparty_teapop",,,
+,,"Lacrima","teaparty_teapop",,,
+,,"Trina","teaparty_teapop",,,
+,,"camera","wait","cutscene",,"timer:3,wait"
+,,7,"teaparty_team_carry_walk",,,"POS:(450;1500),speed:250,next action:{name=teaparty_team_carry_laydown;hold}"
+,,8,"teaparty_team_carry_walk",,,"POS:(3400;1500),speed:250,wait,next action:{name=teaparty_team_carry_laydown;hold}"
+,,"camera","wait","cutscene",,"timer:1.5,wait"
+,,"Bigtea",,"place",,"POS:(435;1362),Camera:2"
+,,"Bigtea",,"place",,"flip:1,POS:(3415;1362),Camera:2"
+,,7,"teaparty_team_carry_salute",,,
+,,8,"teaparty_team_carry_salute2",,,"wait"
+,,7,"teaparty_team_carry_salute_end",,,
+,,8,"teaparty_team_carry_salute2_end",,,"wait"
+,,7,"teaparty_team_carry_away",,,"POS:(-500;1370),speed:300"
+,,8,"teaparty_team_carry_away",,,"POS:(4300;1370),speed:300,wait"
+,"teaparty/13","Rabbit","teaparty_meep2",,,"timer:3,hold,wait,voice:(Meep2;3000;0),next action:{name=teaparty_meep2;reverse}"
+,"teaparty/14","Trina","teaparty_talk",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk;reverse}"
+,"teaparty/15","Miqqy","teaparty_talk6",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk6;reverse}"
+,"teaparty/16","Trina","teaparty_clinkask",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_clinkask}"
+,"teaparty/17","Miqqy","teaparty_talk7",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk7_end;hold;repeat after}"
+,"teaparty/18","Trina","teaparty_clinkask2",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_clinkask2}"
+,"teaparty/19","Miqqy","teaparty_talk8",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,,"Sun","teaparty_teaclink_prepare",,,"hold,repeat after"
+,,"Moon","teaparty_teaclink_prepare",,,"hold,repeat after"
+,,"Rabbit","teaparty_teaclink_prepare",,,"hold,repeat after"
+,,"Lacrima","teaparty_teaclink_prepare",,,"hold,repeat after"
+,,"Miqqy","teaparty_teaclink_prepare",,,"hold,repeat after"
+,"teaparty/20","Trina","teaparty_teaclink_prepare",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
+,,11,"Walk",,,"POS:(3450;1370),speed:100"
+,,"Sun","teaparty_teaclink",,,"hold,repeat after"
+,,"Moon","teaparty_teaclink",,,"hold,repeat after"
+,,"Rabbit","teaparty_teaclink",,,"hold,repeat after"
+,,"Lacrima","teaparty_teaclink",,,"hold,repeat after"
+,,"Miqqy","teaparty_teaclink",,,"hold,repeat after"
+,"teaparty/21","Trina","teaparty_teaclink",,,"timer:4,hold,repeat after,wait,voice:(Parchment_write;3000;0)"
+,"teaparty/22","Rabbit","teaparty_teaclink",,,"timer:2,reverse,hold,repeat after,wait,voice:(Meep3;3000;0)"
+,"teaparty/23","Lacrima","teaparty_teaclink",,,"timer:2,reverse,hold,repeat after,wait,voice:(Meow2;3000;0)"
+,"teaparty/24","Miqqy","teaparty_teaclink2",,,"timer:3,hold,wait,voice:(Parchment_write;3000;0)"
+,,"Rabbit","teaparty_idle4","idle",,
+,,"Miqqy","teaparty_idle3","idle",,
+,,"Trina","teaparty_idle3","idle",,
+,,"Sun","teaparty_teaclink_prepare",,,"reverse"
+,,"Moon","teaparty_teaclink_prepare",,,"reverse"
+,,"Rabbit","teaparty_teaclink_end",,,
+,,"Lacrima","teaparty_teaclink_end",,,
+,,"Miqqy","teaparty_teaclink_end",,,
+,,"Trina","teaparty_teaclink_end",,,
+,,"camera","wait","cutscene",,"timer:3,wait"
+,"teaparty/25","Trina","teaparty_smell",,,"timer:6,hold,wait,voice:(Parchment_write;3000;0)"
+,,"Trina","teaparty_smell_end",,,"hold,repeat after"
+,"teaparty/26","Miqqy","teaparty_talk9",,,"timer:3,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk9;reverse}"
+,"teaparty/27","Trina","teaparty_drink_talk",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,,11,"Walk",,,"POS:(730;3570),speed:100"
+,,"Sun","teaparty_sittea_startdrink",,,"next action:{name=teaparty_sittea_drink;hold;repeat after}"
+,,"Moon","teaparty_sittea_startdrink",,,"next action:{name=teaparty_sittea_drink;hold;repeat after}"
+,,"Rabbit","teaparty_sittea_drink",,,"hold,repeat after"
+,,"Lacrima","teaparty_sittea_drink",,,"hold,repeat after"
+,,"Miqqy","teaparty_idle4","idle",,
+,,"Miqqy","teaparty_drink",,,
+,,"Rabbit","teaparty_idle3","idle",,
+,,"Trina","teaparty_drink",,,"wait"
+,"teaparty/28","Trina","teaparty_drink_talk",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,,"Rabbit","teaparty_sittea_drinkend",,,
+,,"Sun","teaparty_sittea_startdrink",,,"reverse"
+,,"Moon","teaparty_sittea_startdrink",,,"reverse"
+,,"Lacrima","teaparty_sittea_drink_end",,,
+,,"Trina","teaparty_idle2","idle",,
+,,"Trina","teaparty_drink_end",,,"wait"
+,"teaparty/29","Trina","teaparty_drink_aftertalk",,,"timer:3,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_drink_aftertalk_end}"
+,"teaparty/30","Miqqy","teaparty_talk10",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,,"Miqqy","teaparty_idle5","idle",,
+,"teaparty/31","Miqqy","teaparty_talk11",,,"timer:3,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk11_end}"
+,,"Rabbit","teaparty_idle5","idle",,
+,,"Lacrima","teaparty_idle3","idle",,
+,,"Rabbit","teaparty_breadpop",,,"next action:{name=teaparty_breadeat}"
+,,"Sun","teaparty_breadpop",,,"next action:{name=teaparty_breadeat}"
+,,"Moon","teaparty_breadpop",,,"next action:{name=teaparty_breadeat}"
+,,"Lacrima","teaparty_breadpop",,,"next action:{name=teaparty_breadeat}"
+,,"Trina","teaparty_breadpop",,,"wait"
+,"teaparty/32","Trina","teaparty_breadeat1",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,"teaparty/33","Trina","teaparty_breadeat2",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,,"Trina","teaparty_idle5","idle",,
+,,"Trina","teaparty_breadeat3",,,
+,"teaparty/34","Miqqy","teaparty_talk12",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
+,,7,"pop_icecream",,,"hold,repeat after,POS:(-100;1200),speed:10000,angle:-90"
+,"teaparty/35","Miqqy","teaparty_talk13",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,8,"pop_jam",,,"hold,repeat after,POS:(3900;1400),speed:10000,angle:90"
+,"teaparty/36","Miqqy","teaparty_talk14",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,9,"pop_ginger",,,"hold,repeat after,POS:(3400;1300),speed:10000,angle:90"
+,"teaparty/37","Miqqy","teaparty_talk15",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,10,"pop_pudding",,,"hold,repeat after,POS:(0;1300),speed:10000,angle:-90"
+,"teaparty/38","Miqqy","teaparty_talk16",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,"Trinadoll","pop_cake",,,"hold,repeat after,POS:(3800;2300),speed:10000,angle:90"
+,"teaparty/39","Miqqy","teaparty_talk17",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,"Miqdoll","pop_pie",,,"hold,repeat after,POS:(0;2200),speed:10000,angle:-90"
+,"teaparty/40","Miqqy","teaparty_talk18",,,"Timer:5,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
+,,"camera","wait","cutscene",,"timer:3,wait"
+,,"camera","blackout","cutscene",,"Timer:3,no auto fade out,wait"
+,,"game",,"end",,
