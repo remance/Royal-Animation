@@ -54,24 +54,7 @@ Discord channel: [![github](https://github.com/remance/preview/blob/main/discord
 
 ### Music
 
-- Test menu music"The Britons" by kmacleod (https://pixabay.com/users/kmacleod-3979860/)
-- Battle music "Medieval: Battle" by RandomMind (https://www.chosic.com/free-music/all/?keyword=RandomMind&artist)
-- Battle music 2 "War Drums Sound Effect - Realistic Performance - Royalty Free" by Free Audio Zone (https://www.youtube.com/watch?v=d2omr4EpjVc)
-- Battle music 3-9 "Action Drum 1-7" By Ashenrise (https://pixabay.com/users/ashenrise-37219325/)
-- Council music "Meditacao" by Composiia (https://pixabay.com/users/composiia-38203768/)
-- Cathedral music "Camelot Monastery" by Darren Curtis (https://www.chosic.com/free-music/all/?keyword=Darren%20Curtis&artist)
-- Library music "Calmaria" by Composiia (https://pixabay.com/users/composiia-38203768/)
-- Centre music "Rejoicing" by RandomMind (https://www.chosic.com/free-music/all/?keyword=RandomMind&artist)
-- Tavern music "Minstrel Dance" by RandomMind (https://www.chosic.com/free-music/all/?keyword=RandomMind&artist)
-- Scriptorium music "Arnor" by Alex-Productions (https://www.chosic.com/free-music/all/?keyword=Alex-Productions&artist)
-- Garden music "Nature" by Alex-Productions (https://www.chosic.com/free-music/all/?keyword=Alex-Productions&artist)
-- Market music "Fireside Tales" by Darren Curtis (https://www.chosic.com/free-music/all/?keyword=Darren%20Curtis&artist)
-- Herbalist music "Floralia" by theromancrow (https://pixabay.com/users/theromancrow-42411874/)
-- Training ground music "Sword-19" by its_tigri (https://pixabay.com/users/42054041/?tab=music&order=latest&pagi=1)
-- Castle hall music "Royal Coupling" by kmacleod (https://archive.org/details/medieval-instrumental-background-music)
-- Artificer music "Medieval" by thematic_stock_music (https://pixabay.com/users/thematic_stock_music-35174846/)
-- Blacksmith music "Musik Hintergrund" by dueg-oth (https://pixabay.com/users/dueg-oth-34165349/)
-- Barrack music "Forge" by Ehved (https://pixabay.com/users/ehved-42712802/)
+- Blue Dream and White Dream by BorealMix (https://www.mikseri.net/borealmix/)
 
 ### Ambient
 - Windy, forest ambient by Pixabay (https://pixabay.com/users/pixabay-1/) 

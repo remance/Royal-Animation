@@ -71,10 +71,10 @@ class BattleMapData(GameData):
                     self.preset_map_data[chapter_file_name][map_file_name][stage_file_name] = {}
                     if stage_file_name != "0":  # city scene use different reading
                         original_event_data, event_data = self.load_map_event_data(chapter_file_name, map_file_name,
-                                                                                   stage_file_name)
+                                                                                   stage_file_name.lower())
                         self.preset_map_data[chapter_file_name][map_file_name][stage_file_name] = \
-                            {"data": self.load_map_object_data(chapter_file_name, map_file_name, stage_file_name),
-                             "character": self.load_map_unit_data(chapter_file_name, map_file_name, stage_file_name),
+                            {"data": self.load_map_object_data(chapter_file_name, map_file_name, stage_file_name.lower()),
+                             "character": self.load_map_unit_data(chapter_file_name, map_file_name, stage_file_name.lower()),
                              "event_data": original_event_data,
                              "event": event_data}
 
