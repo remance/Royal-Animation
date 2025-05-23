@@ -10,7 +10,7 @@ from os import sep
 from os.path import join, split, normpath, abspath
 
 import pygame
-from pygame.transform import smoothscale, flip as pyflip
+from pygame.transform import smoothscale, rotate, flip as pyflip
 from PIL import Image, ImageFilter, ImageEnhance, ImageOps
 
 from engine.data.datalocalisation import Localisation
@@ -1429,8 +1429,7 @@ class Model:
                 self.current_history -= new_first
 
     def part_to_sprite(self, surface, part, part_name, target, angle, flip, width_scale, height_scale, save_mask=False):
-        part_rotated = smoothscale(part, (part.get_width() * width_scale / self.size,
-                                          part.get_height() * height_scale / self.size))
+        part_rotated = part
         if flip:
             if flip == 1:  # horizontal only
                 part_rotated = pyflip(part_rotated, True, False)
@@ -1438,8 +1437,10 @@ class Model:
             #     part_rotated = pygame.transform.flip(part_rotated, False, True)
             # elif flip == 3:  # flip both direction
             #     part_rotated = pygame.transform.flip(part_rotated, True, True)
+        part_rotated = smoothscale(part_rotated, (part_rotated.get_width() * width_scale / self.size,
+                                                  part_rotated.get_height() * height_scale / self.size))
         if angle:
-            part_rotated = sprite_rotate(part_rotated, angle)  # rotate part sprite
+            part_rotated = rotate(part_rotated, angle)  # rotate part sprite
 
         new_target = ((target[0] + showroom_base_point[0]) / self.size, (target[1] + showroom_base_point[1]) / self.size)
         rect = part_rotated.get_rect(center=new_target)
@@ -2913,13 +2914,13 @@ while True:
                             if len(part) > 5:
                                 if part[4]:  # flip
                                     part_image = pyflip(part_image, True, False)
-                                if part[3]:
-                                    part_image = sprite_rotate(part_image, part[4])
                                 if part[6] != 1 or part[7] != 1:  # scale
                                     part_image = smoothscale(part_image, (part_image.get_width() * part[6],
                                                               part_image.get_height() * part[7]))
+                                if part[3]:
+                                    part_image = sprite_rotate(part_image, part[3])
 
-                                width_check = part_image.get_width() * 1.5
+                                width_check = part_image.get_width()
                                 height_check = part_image.get_height()
                                 if part[2][0] - width_check < min_x:
                                     min_x = part[2][0] - width_check
@@ -2935,19 +2936,19 @@ while True:
                         pose_layer_list = model.make_layer_list(model.animation_part_list[index])
                         image = pygame.Surface((abs(min_x) + abs(max_x), abs(min_y) + abs(max_y)),
                                                pygame.SRCALPHA)  # default size will scale down later
-                        showroom_point = ((image.get_width() / 2), image.get_height() - max_y)
+                        base_point = (image.get_width() / 2 - ((min_x + max_x) / 2), image.get_height() - max_y)
                         for layer in pose_layer_list:
                             part = model.animation_part_list[index][layer]
                             if part is not None and part[0] is not None:
                                 part_rotated = part[0]
                                 if part[4]:
                                     part_rotated = pyflip(part_rotated, True, False)
-                                if part[3]:
-                                    part_rotated = sprite_rotate(part_rotated, part[3])  # rotate part sprite
                                 if part[6] != 1 or part[7] != 1:
                                     part_rotated = smoothscale(part_rotated, (part_rotated.get_width() * part[6],
                                                                               part_rotated.get_height() * part[7]))
-                                new_target = (part[2][0] + showroom_point[0], part[2][1] + showroom_point[1])
+                                if part[3]:
+                                    part_rotated = sprite_rotate(part_rotated, part[3])  # rotate part sprite
+                                new_target = (part[2][0] + base_point[0], part[2][1] + base_point[1])
                                 rect = part_rotated.get_rect(center=new_target)
                                 image.blit(part_rotated, rect)
                         # image = smoothscale(image, (image.get_width() / model.size, image.get_height() / model.size))

@@ -5,7 +5,7 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/rsZd_9TWNCk)](https://youtu.be/rsZd_9TWNCk)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OLXNAn7SvRY)](https://youtu.be/OLXNAn7SvRY)
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="400" height="400"></a>   
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>   
 
 For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
 page.
@@ -13,15 +13,6 @@ page.
 Maybe I will keep expanding on it enough into a full story game beyond Elden Ring fan animation in the future. Will see.
 
 Discord channel: [![github](https://github.com/remance/preview/blob/main/discord_logo.png?raw=true)][1]
-
-Also include custom animation maker:
-
-<img src="https://github.com/remance/preview2/blob/main/maker.png?raw=true"></a>   
-
-Can be used to make a comic as well I guess:
-
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/comic4.gif?raw=true"></a>   
-
 
 ### Sound (Obtained and edited):
 
