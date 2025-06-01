@@ -323,6 +323,7 @@ class Battle:
         # Create the game camera
         self.camera_mode = "Follow"  # mode of game camera, follow player character or free observation
         self.camera_pos = Vector2(500, 500)  # camera pos on scene
+        self.camera_left = (self.camera_pos[0] - self.camera_center_x)
         self.base_camera_begin = (self.camera_pos[0] - self.camera_center_x) / self.screen_scale[0]
         self.base_camera_end = (self.camera_pos[0] + self.camera_center_x) / self.screen_scale[0]
 
@@ -392,7 +393,7 @@ class Battle:
         self.stage = stage
 
         # Stop all sound
-        for sound_ch in range(0, 1000):
+        for sound_ch in range(1000):
             if Channel(sound_ch).get_busy():
                 Channel(sound_ch).stop()
         self.current_music = None
@@ -651,6 +652,8 @@ class Battle:
                                              value3[0]["Property"]["sound distance"],
                                              value3[0]["Property"]["shake value"]))
 
+        for scene in self.scenes.values():
+            scene.setup()
         yield set_done_load()
 
     def run_game(self):
@@ -895,7 +898,7 @@ class Battle:
                                         self.decision_select)
 
         # stop all sounds
-        for sound_ch in range(0, 1000):
+        for sound_ch in range(1000):
             if Channel(sound_ch).get_busy():
                 Channel(sound_ch).stop()
         self.current_music = None

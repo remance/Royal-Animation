@@ -97,9 +97,10 @@ def event_process(self):
                 if child_event["Object"] != "remove":
                     self.scenes[child_event["Type"]].data[pos] = child_event["Object"]
                 else:
-                    stage_data = self.scenes[event_property["scene"]].data
-                    if pos in stage_data:
-                        stage_data.pop(pos)
+                    self.scenes[child_event["Type"]].data[pos] = self.empty_scene_image
+                x = (pos - 1) * self.scenes[child_event["Type"]].data[pos].get_width()
+                rect = self.scenes[child_event["Type"]].data[pos].get_rect(topleft=(x, 0))
+                self.scenes[child_event["Type"]].full_scene_image.blit(self.scenes[child_event["Type"]].data[pos], rect)
                 self.cutscene_playing.remove(child_event)
 
             elif "bgfade" in child_event["Type"]:

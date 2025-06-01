@@ -8,7 +8,7 @@ from engine.character.character import Character
 def state_battle_process(self, esc_press):
     # print(" ")
     if esc_press:  # pause game and open menu
-        for sound_ch in range(0, 1000):
+        for sound_ch in range(1000):
             if Channel(sound_ch).get_busy():  # pause all sound playing
                 Channel(sound_ch).pause()
 
@@ -134,7 +134,7 @@ def state_battle_process(self, esc_press):
 
     # camera update
     for key, stage in self.scenes.items():
-        stage.update(self.camera_scale, self.current_scene, self.shown_camera_pos, self.camera_y_shift)
+        stage.update(self.camera_left, self.camera_y_shift)
         self.camera.update(self.shown_camera_pos, self.battle_cameras[key])
     self.camera.update(self.shown_camera_pos, self.battle_cameras["ui"])
     self.camera.out_update(self.realtime_ui_updater)  # update ui last

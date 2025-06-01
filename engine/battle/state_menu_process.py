@@ -5,7 +5,7 @@ from pygame import quit as pg_quit
 
 def state_menu_process(self, esc_press):
     for key, stage in self.scenes.items():
-        stage.update(self.camera_scale, self.current_scene, self.shown_camera_pos, self.camera_y_shift)
+        stage.update(self.camera_left, self.camera_y_shift)
         self.camera.update(self.shown_camera_pos, self.battle_cameras[key])
 
     self.camera.update(self.shown_camera_pos, self.battle_cameras["ui"])

@@ -952,7 +952,7 @@ class Model:
         # recreate property list
         anim_prop_list_box.namelist = [item for item in anim_prop_list_box.namelist if item in anim_property_select] + \
                                       [item for item in anim_prop_list_box.namelist if item not in anim_property_select]
-        for frame in range(0, len(frame_prop_list_box.namelist)):
+        for frame in range(len(frame_prop_list_box.namelist)):
             frame_prop_list_box.namelist[frame] = [item for item in frame_prop_list_box.namelist[frame] if
                                                    item in frame_property_select[frame]] + \
                                                   [item for item in frame_prop_list_box.namelist[frame] if

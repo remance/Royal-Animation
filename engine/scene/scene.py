@@ -1,4 +1,6 @@
+from pygame import SRCALPHA
 from pygame.sprite import Sprite
+from pygame.surface import Surface
 
 
 class Scene(Sprite):
@@ -18,7 +20,12 @@ class Scene(Sprite):
         Sprite.__init__(self)
         self.data = {}
         self.images = {}
+        self.full_scene_image = None
+        self.current_scene_image = None
         self.shown_camera_pos = None
+        self.camera_left = None
+        self.camera_y_shift = None
+        self.rect = None
 
         self.alpha = 0
         self.fade_speed = 1
@@ -26,24 +33,26 @@ class Scene(Sprite):
         self.fade_in = False
         self.fade_out = False
         self.fade_delay = 0
+        self.size_width = self.screen_width
+        self.size_height = self.screen_height
 
-    def update(self, camera_scale, current_scene, shown_camera_pos, camera_y_shift):
-        if camera_scale:  # two frames shown in one screen
-            if current_scene in self.data:
-                frame_one = self.images[self.data[current_scene]]
-                rect = frame_one.get_rect(topright=(self.screen_width - (self.screen_width * camera_scale[0]),
-                                                    camera_y_shift))
-                self.image.blit(frame_one, rect)
+    def setup(self):
+        self.full_scene_image = Surface((self.screen_width * len(self.data), self.size_height), SRCALPHA)
+        for scene_index, image in self.data.items():
+            x = (scene_index - 1) * self.images[image].get_width()
+            rect = self.images[image].get_rect(topleft=(x, 0))
+            self.full_scene_image.blit(self.images[image], rect)
 
-            if current_scene + 1 in self.data:
-                frame_two = self.images[self.data[current_scene + 1]]
-                rect = frame_two.get_rect(topleft=(self.screen_width * camera_scale[1], camera_y_shift))
-                self.image.blit(frame_two, rect)
-        else:
-            if current_scene in self.data:
-                frame_image = self.images[self.data[current_scene]]
-                rect = frame_image.get_rect(midtop=(frame_image.get_width() / 2, camera_y_shift))
-                self.image.blit(frame_image, rect)
+    def update(self, camera_left, camera_y_shift):
+        if self.camera_left != camera_left:
+            self.camera_left = camera_left
+            self.current_scene_image = Surface.subsurface(self.full_scene_image, (camera_left, 0,
+                                                                                  self.size_width, self.size_height))
+        if self.camera_y_shift != camera_y_shift:
+            self.camera_y_shift = camera_y_shift
+            self.rect = self.current_scene_image.get_rect(midtop=(self.current_scene_image.get_width() / 2,
+                                                                  camera_y_shift))
+        self.image.blit(self.current_scene_image, self.rect)
 
         if self.fade_start:
             if self.fade_in:  # keep fading in
@@ -65,3 +74,16 @@ class Scene(Sprite):
                     self.fade_delay = 0
             if not self.fade_delay:
                 self.fade_start = False
+
+
+class HalfScene(Scene):
+    def __init__(self):
+        Scene.__init__(self)
+        self.size_height = self.size_height / 2
+
+    def setup(self):
+        self.full_scene_image = Surface((self.screen_width * len(self.data), self.size_height), SRCALPHA)
+        for scene_index, image in self.data.items():
+            x = (scene_index - 1) * self.images[image].get_width()
+            rect = self.images[image].get_rect(topleft=(x, 0))
+            self.full_scene_image.blit(self.images[image], rect)
