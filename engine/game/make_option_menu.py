@@ -76,8 +76,7 @@ def make_option_menu(self, main_menu_buttons_box):
     image3 = load_image(self.data_dir, self.screen_scale, "drop_click.jpg", ("ui", "mainmenu_ui"))
     button_image_list = [image, image2, image3]
     resolution_drop = MenuButton(button_image_list, (self.screen_rect.width / 2, self.screen_rect.height / 1.8),
-                                 key_name=str(self.screen_rect.width) + " x " + str(self.screen_rect.height),
-                                 font_size=int(120 * self.screen_scale[1]))
+                                 key_name=str(self.screen_rect.width) + " x " + str(self.screen_rect.height))
 
     resolution_bar = make_bar_list(self.data_dir, self.screen_scale, self.resolution_list, resolution_drop)
 
@@ -88,40 +87,30 @@ def make_option_menu(self, main_menu_buttons_box):
 
     keybind_text = {"Weak": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 5),
                                            self.localisation.grab_text(
-                                               key=("ui", "keybind_weak_attack",)), font_size,
-                                           button_image=self.battle_ui_images["button_weak"]),
+                                               key=("ui", "keybind_weak_attack",)), font_size),
                     "Strong": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 3.5),
                                              self.localisation.grab_text(
-                                                 key=("ui", "keybind_strong_attack",)), font_size,
-                                             button_image=self.battle_ui_images["button_strong"]),
+                                                 key=("ui", "keybind_strong_attack",)), font_size),
                     "Guard": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 2.5),
-                                            self.localisation.grab_text(key=("ui", "keybind_guard",)), font_size,
-                                            button_image=self.battle_ui_images["button_guard"]),
+                                            self.localisation.grab_text(key=("ui", "keybind_guard",)), font_size),
                     "Special": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 2),
-                                              self.localisation.grab_text(key=("ui", "keybind_special",)), font_size,
-                                              button_image=self.battle_ui_images["button_special"]),
+                                              self.localisation.grab_text(key=("ui", "keybind_special",)), font_size),
                     "Left": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 1.7),
-                                           self.localisation.grab_text(key=("ui", "keybind_move_left",)), font_size,
-                                           button_image=self.battle_ui_images["button_left"]),
+                                           self.localisation.grab_text(key=("ui", "keybind_move_left",)), font_size),
                     "Right": OptionMenuText((self.screen_rect.width / 4, self.screen_rect.height / 1.5),
-                                            self.localisation.grab_text(key=("ui", "keybind_move_right",)), font_size,
-                                            button_image=self.battle_ui_images["button_right"]),
+                                            self.localisation.grab_text(key=("ui", "keybind_move_right",)), font_size),
                     "Up": OptionMenuText((self.screen_rect.width / 1.5, self.screen_rect.height / 5),
-                                         self.localisation.grab_text(key=("ui", "keybind_move_up",)), font_size,
-                                         button_image=self.battle_ui_images["button_up"]),
+                                         self.localisation.grab_text(key=("ui", "keybind_move_up",)), font_size),
                     "Down": OptionMenuText((self.screen_rect.width / 1.5, self.screen_rect.height / 3.5),
-                                           self.localisation.grab_text(key=("ui", "keybind_move_down",)), font_size,
-                                           button_image=self.battle_ui_images["button_down"]),
+                                           self.localisation.grab_text(key=("ui", "keybind_move_down",)), font_size),
                     "Menu/Cancel": OptionMenuText((self.screen_rect.width / 1.5, self.screen_rect.height / 2.5),
-                                                  self.localisation.grab_text(key=("ui", "keybind_menu",)), font_size,
-                                                  button_image=self.battle_ui_images["button_menu"]),
+                                                  self.localisation.grab_text(key=("ui", "keybind_menu",)), font_size),
                     "Order Menu": OptionMenuText((self.screen_rect.width / 1.5, self.screen_rect.height / 2),
                                                  self.localisation.grab_text(key=("ui", "keybind_order_menu",)),
-                                                 font_size,
-                                                 button_image=self.battle_ui_images["button_order"]),
+                                                 font_size),
                     "Inventory Menu": OptionMenuText((self.screen_rect.width / 1.5, self.screen_rect.height / 1.7),
                                                      self.localisation.grab_text(key=("ui", "keybind_inventory_menu",)),
-                                                     font_size, button_image=self.battle_ui_images["button_inventory"])
+                                                     font_size)
                     }
 
     control_type = "keyboard"  # make default keyboard for now, get changed later when player enter keybind menu

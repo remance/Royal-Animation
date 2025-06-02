@@ -27,12 +27,6 @@ class Effect(Sprite):
     from engine.effect.find_random_direction import find_random_direction
     find_random_direction = find_random_direction
 
-    from engine.effect.hit_collide_check import hit_collide_check
-    hit_collide_check = hit_collide_check
-
-    from engine.effect.hit_register import hit_register
-    hit_register = hit_register
-
     from engine.effect.move_logic import move_logic
     move_logic = move_logic
 
@@ -397,20 +391,19 @@ class DamageEffect(Effect):
                                                        self.sound_distance, self.shake_value)
                     self.sound_timer = 0
 
-            if not self.hit_collide_check(check_damage_effect=self.effect_collide_check):
-                if self.duration > 0:  # only clear for sprite with duration
-                    self.duration -= dt
-                    if self.duration <= 0:
-                        self.reach_target()
-                        return
-
-                done, just_start = self.play_animation(self.animation_speed, dt, False)
-
-                if just_start and self.duration and not self.one_hit_per_enemy:
-                    # reset already hit every animation frame for effect with duration and not with one hit condition
-                    self.already_hit = []
-                if self.move_logic(dt, done):
+            if self.duration > 0:  # only clear for sprite with duration
+                self.duration -= dt
+                if self.duration <= 0:
+                    self.reach_target()
                     return
+
+            done, just_start = self.play_animation(self.animation_speed, dt, False)
+
+            if just_start and self.duration and not self.one_hit_per_enemy:
+                # reset already hit every animation frame for effect with duration and not with one hit condition
+                self.already_hit = []
+            if self.move_logic(dt, done):
+                return
 
 
 class TrapEffect(Effect):

@@ -13,4 +13,4 @@ def adjust_sprite(self):
                                               int(self.image.get_height() * self.height_scale)))
 
     self.rect = self.image.get_rect(center=self.pos)
-    self.mask = from_surface(self.image)
+    # self.mask = from_surface(self.image)

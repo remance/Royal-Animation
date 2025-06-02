@@ -103,10 +103,12 @@ def menu_option(self, esc_press):
 
     for key, value in self.option_menu_sliders.items():
         if value.event:  # press on slider bar
+            print(key, value.event)
             value.player_input(self.value_boxes[key])  # update slider button based on mouse value
             edit_config("USER", key + "_volume", value.value, self.config_path,
                         self.config)
             self.change_sound_volume()
+            break
 
 
 def change_resolution(self, resolution_change=None):

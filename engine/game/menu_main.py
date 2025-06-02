@@ -15,7 +15,7 @@ def menu_main(self, esc_press):
         self.remove_ui_updater(self.mainmenu_button)
 
         self.add_ui_updater(self.option_menu_button, self.option_menu_sliders.values(), self.value_boxes.values(),
-                            self.option_text_list)
+                            self.option_text_list, self.hide_background)
 
     elif self.quit_button.event or esc_press:  # open quit game confirmation input
         self.activate_input_popup(("confirm_input", "quit"), "Quit Game?", self.confirm_ui_popup)

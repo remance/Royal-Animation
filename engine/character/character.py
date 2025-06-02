@@ -358,12 +358,6 @@ class BodyPart(Sprite):
     body_sprite_pool = None
     empty_surface = pygame.Surface((0, 0))
 
-    from engine.effect.hit_collide_check import hit_collide_check
-    hit_collide_check = hit_collide_check
-
-    from engine.effect.hit_register import hit_register
-    hit_register = hit_register
-
     def __init__(self, owner, part, can_hurt=True):
         self.screen_scale = self.battle.screen_scale
         self.owner = owner
@@ -390,7 +384,7 @@ class BodyPart(Sprite):
         self.image = self.empty_surface
         self.data = ()  # index 1=part name, 2and3=pos xy, 4=angle, 5=flip, 6=layer , 7=width scale, 8=height scale, 9=deal damage or not
         self.rect = self.image.get_rect(topleft=(0, 0))
-        self.mask = from_surface(self.image)
+        # self.mask = from_surface(self.image)
 
         # Variables not really used or changed but required for same functions as Effect
         self.duration = 0
@@ -454,7 +448,7 @@ class BodyPart(Sprite):
                 self.battle_camera.remove(self)
             self.rect = self.image.get_rect(center=((self.owner.pos[0] + (self.data[2] * self.screen_scale[0])),
                                                     (self.owner.pos[1] + (self.data[3] * self.screen_scale[1]))))
-            self.mask = from_surface(self.image)
+            # self.mask = from_surface(self.image)
         else:
             if self in self.battle_camera:
                 self.battle_camera.remove(self)

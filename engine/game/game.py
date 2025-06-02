@@ -7,7 +7,7 @@ from math import sin, cos, radians
 from random import uniform, randint
 
 import pygame
-from pygame import sprite, Vector2, JOYDEVICEADDED, JOYDEVICEREMOVED, display, mouse
+from pygame import sprite, Vector2, JOYDEVICEADDED, JOYDEVICEREMOVED, display, mouse, Surface
 from pygame.locals import *
 
 from engine.battle.battle import Battle
@@ -491,6 +491,11 @@ class Game:
             if self.player_key_control[player] == "joystick" and player not in self.player_joystick:
                 self.config["USER"]["control player " + str(player)] = "keyboard"
                 self.change_keybind()
+
+        hide_bg = Surface((self.screen_width, self.screen_height), SRCALPHA)
+        hide_bg.fill((0, 0, 0, 200))
+        self.hide_background = StaticImage((self.screen_width / 2, self.screen_height / 2), hide_bg)
+        self.remove_ui_updater(self.hide_background)
 
         self.dt = 0
         self.text_delay = 0
