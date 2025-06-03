@@ -598,11 +598,11 @@ class BodyHelper(pygame.sprite.Sprite):
                              p_type + "_special_3": (20, 75),
                              p_type + "_special_4": (20, 105), p_type + "_special_5": (20, 135),
                              "effect_1": (20, 165), "effect_2": (20, 195), "effect_3": (20, 225), "effect_4": (20, 255),
-                             p_type + "_special_6": (250, 15), p_type + "_special_7": (250, 45),
-                             p_type + "_special_8": (250, 75),
-                             p_type + "_special_9": (250, 105), p_type + "_special_10": (250, 135),
-                             "effect_5": (250, 165), "effect_6": (250, 195), "effect_7": (250, 225),
-                             "effect_8": (250, 255)}
+                             p_type + "_special_6": (300, 15), p_type + "_special_7": (300, 45),
+                             p_type + "_special_8": (300, 75),
+                             p_type + "_special_9": (300, 105), p_type + "_special_10": (300, 135),
+                             "effect_5": (300, 165), "effect_6": (300, 195), "effect_7": (300, 225),
+                             "effect_8": (300, 255)}
         if player_change:
             self.select_part(None, False, False)  # reset first
             for part in model.part_selected:  # blit selected part that is in helper
@@ -901,7 +901,7 @@ class Model:
                 frame_list.append({})
 
             recal_camera_pos(self)
-            size_button.change_text("Size: " + str(self.size))
+            size_button.change_text("Zoom: " + str(self.size))
             for index, pose in enumerate(frame_list):
                 sprite_part = {key: None for key in self.mask_part_list}
                 link_list = {key: None for key in self.mask_part_list}
@@ -1250,6 +1250,10 @@ class Model:
                                         new_angle = new_angle + 10
                                     else:
                                         new_angle = new_angle + 1
+                                if new_angle < 0:
+                                    new_angle += 360
+                                elif new_angle > 360:
+                                    new_angle -= 360
                                 self.animation_part_list[edit_frame][part_index][3] = new_angle
 
                             elif edit_type == "rotate":  # mouse rotate
@@ -1586,7 +1590,7 @@ filmstrips.add(*filmstrip_list)
 
 images = load_images(current_data_dir, screen_scale=screen_scale, subfolder=("animation_maker_ui", "helper_parts"))
 body_helper_size = (700 * screen_scale[0], 270 * screen_scale[1])
-effect_helper_size = (500 * screen_scale[0], 270 * screen_scale[1])
+effect_helper_size = (700 * screen_scale[0], 270 * screen_scale[1])
 effect_helper = BodyHelper(effect_helper_size, (screen_size[0] - (body_helper_size[0] / 3),
                                                 screen_size[1] - (body_helper_size[1] / 2)),
                            "p1_effect", [images["16_smallbox_helper"]])
@@ -1608,9 +1612,9 @@ new_button = Button("New Ani", image, (image.get_width() * 2.5, image.get_height
                     description=("Create new animation", "Create new empty animation with name input."))
 save_button = Button("Save", image, (image.get_width() * 3.5, image.get_height() / 2),
                      description=("Save all animation", "Save the current state of all animation only for this char."))
-size_button = Button("Size: ", image, (image.get_width() * 4.5, image.get_height() / 2),
+size_button = Button("Zoom: ", image, (image.get_width() * 4.5, image.get_height() / 2),
                      description=(
-                         "Change animation frame size", "This does not change the size of the animation editor UI."))
+                         "Change animation preview room zoom", "This does not change the size of the animation editor UI."))
 
 rename_button = Button("Rename", image, (screen_size[0] - (image.get_width() * 3.5), image.get_height() / 2),
                        description=("Rename animation",
@@ -1750,6 +1754,7 @@ help_button = SwitchButton(("Help:ON", "Help:OFF"), image,
                            (screen_size[0] / 1.35,
                             p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
                            description=("Enable or disable help popup.",
+                                        "The bold line in the showroom indicate animation base point.",
                                         "Arrow keys to control showroom camera pos",
                                         "Control for parts selection:", "Left Click on part = Part selection",
                                         "Shift + Left Click = Add selection", "CTRL + Left Click = Remove selection",
@@ -1757,7 +1762,9 @@ help_button = SwitchButton(("Help:ON", "Help:OFF"), image,
                                         "[ or ] = Previous or next animation",
                                         "Control with selected parts: ", "W,A,S,D = Move", "Mouse Right = Place",
                                         "Hold mouse wheel or Q,E = Rotate", "DEL = Clear part",
-                                        "Page Up/Down = Change layer"))
+                                        "Page Up/Down or Numpad +/- = Change layer",
+                                        "Some keyboard input like arrow key can be pressed along with Shift key to "
+                                        "change value by 10"))
 showroom_colour_button = Button("Box RGB", image, (screen_size[0] / 1.35,
                             p_body_helper.rect.midtop[1] - (image.get_height() * 5.5)),
                                 description=("Change showroom background colour",))
@@ -1844,7 +1851,7 @@ box_img = load_image(current_data_dir, screen_scale, "property_box.png", "animat
 big_box_img = load_image(current_data_dir, screen_scale, "biglistbox.png", "animation_maker_ui")
 
 ListBox.containers = popup_list_box
-popup_list_box = ListBox((0, 0), big_box_img, 16)  # popup box need to be in higher layer
+popup_list_box = ListBox((0, 0), big_box_img, 20)  # popup box need to be in higher layer
 UIScroll(popup_list_box, popup_list_box.rect.topright)  # create scroll for popup list box
 anim_prop_list_box = ListBox((0, filmstrip_list[0].rect.midbottom[1] +
                               (reset_button.image.get_height() * 1.5)), box_img, 8)
@@ -2101,7 +2108,7 @@ while True:
                     mouse_pos)):
                     current_popup_row = list_scroll(mouse_scroll_up, mouse_scroll_down,
                                                     popup_list_box, current_popup_row, popup_list_box.namelist,
-                                                    popup_namegroup, ui, screen_scale)
+                                                    popup_namegroup, ui, screen_scale, layer=21)
                 elif anim_prop_list_box.rect.collidepoint(mouse_pos) or anim_prop_list_box.scroll.rect.collidepoint(
                         mouse_pos):
                     current_anim_row = list_scroll(mouse_scroll_up, mouse_scroll_down,
@@ -2199,7 +2206,7 @@ while True:
                     if new_row is not None:
                         current_popup_row = new_row
                         setup_list(NameList, current_popup_row, popup_list_box.namelist, popup_namegroup,
-                                   popup_list_box, ui, screen_scale, layer=19)
+                                   popup_list_box, ui, screen_scale, layer=21)
 
                 else:  # click other stuffs
                     for this_name in popup_namegroup:  # remove name list

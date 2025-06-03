@@ -943,7 +943,7 @@ class NameList(UIMenu):
         self.name = str(name)
 
         self.image = Surface(
-            (box.image.get_width() - int(36 * self.screen_scale[0]),
+            (box.image.get_width() - int(20 * self.screen_scale[0]),
              int((text_size + 4) * self.screen_scale[1])))  # black corner
         self.image.fill((30, 30, 30))
         self.selected_image = self.image.copy()
@@ -951,7 +951,7 @@ class NameList(UIMenu):
 
         # White body square
         small_image = Surface(
-            (box.image.get_width() - int(32 * self.screen_scale[0]), int((text_size + 2) * self.screen_scale[1])))
+            (box.image.get_width() - int(16 * self.screen_scale[0]), int((text_size + 2) * self.screen_scale[1])))
         small_image.fill((220, 220, 220))
         small_rect = small_image.get_rect(center=(self.image.get_width() / 2, self.image.get_height() / 2))
         self.image.blit(small_image, small_rect)
