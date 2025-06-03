@@ -7,12 +7,52 @@
 
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>   
 
+# Who are included so far?
+
+## Miqqy or Miquella the Kind of Clumsy (Version: Empyrean, young, doll)
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miqqy.png?raw=true" width="200" height="200">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miq_kid.png?raw=true" width="200" height="200">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miq_doll.png?raw=true" width="200" height="200">
+
+## Trina Trina (Version: Abundance infused, young, doll)
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina.png?raw=true" width="200" height="200">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina_kid.png?raw=true" width="200" height="200">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina_doll.png?raw=true" width="200" height="200">
+
+## Malenia the Severed
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_malenia.png?raw=true" width="200" height="200"></a>   
+
+## Tiny Elden Beast
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_elden.png?raw=true" width="200" height="200"></a>   
+
+## Lacrima the Longtail cat
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_lacrima.png?raw=true" width="200" height="200"></a>   
+
+
+
 For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
 page.
 
 Maybe I will keep expanding on it enough into a full story game beyond Elden Ring fan animation in the future. Will see.
 
 Discord channel: [![github](https://github.com/remance/preview/blob/main/discord_logo.png?raw=true)][1]
+
+# Other Stuffs
+
+Also include custom animation maker:
+
+<img src="https://github.com/remance/preview2/blob/main/maker.png?raw=true"></a>   
+
+Can be used to make a comic as well I guess:
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/comic4.gif?raw=true"></a>   
+
+
 
 ### Sound (Obtained and edited):
 
