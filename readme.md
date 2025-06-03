@@ -7,19 +7,22 @@
 
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>   
 
-# Who are included so far?
+# Who is included so far?
 
 ## Miqqy or Miquella the Kind of Clumsy (Version: Empyrean, young, doll)
 
+<p float="left">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miqqy.png?raw=true" width="200" height="200">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miq_kid.png?raw=true" width="200" height="200">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_miq_doll.png?raw=true" width="200" height="200">
+</p>
 
 ## Trina Trina (Version: Abundance infused, young, doll)
-
+<p float="left">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina.png?raw=true" width="200" height="200">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina_kid.png?raw=true" width="200" height="200">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina_doll.png?raw=true" width="200" height="200">
+</p>
 
 ## Malenia the Severed
 
