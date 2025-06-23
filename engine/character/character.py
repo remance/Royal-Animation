@@ -206,7 +206,11 @@ class Character(Sprite):
         if self.sprite_direction != self.new_direction:  # Rotate Function
             self.rotate_logic()
         self.move_logic(dt)  # Move function
-        done = self.play_animation(dt, False)
+        hold_check = False
+        if ("hold" in self.current_animation_direction[self.show_frame]["property"] and
+                "hold" in self.current_action):
+            hold_check = True
+        done = self.play_animation(dt, hold_check)
         self.check_new_animation(done)
 
     @staticmethod

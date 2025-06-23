@@ -4,7 +4,7 @@ import random
 import re
 import sys
 import time
-from math import atan2, degrees
+from math import atan2, degrees, radians
 from pathlib import Path
 from os import sep
 from os.path import join, split, normpath, abspath
@@ -21,6 +21,7 @@ from engine.uimenu.uimenu import MenuCursor, NameList, MenuButton, TextPopup, In
 from engine.utils.data_loading import csv_read, load_image, load_images, load_base_button, recursive_image_load, \
     filename_convert_readable as fcv
 from engine.utils.sprite_altering import sprite_rotate
+from engine.utils.rotation import rotation_xy, find_angle_between_12
 
 main_dir = split(abspath(__file__))[0]
 main_data_dir = join(main_dir, "data")
@@ -673,7 +674,7 @@ class BodyHelper(pygame.sprite.Sprite):
                 stat[1] = str(stat[1])
                 if len(stat) > 3:
                     try:
-                        stat[2] = str([[round(stat[2][0], 1), round(stat[2][1], 1)]])
+                        stat[2] = str([[int(stat[2][0]), int(stat[2][1])]])
                     except TypeError:
                         stat[2] = str([0, 0])
                     for index2, change in enumerate(["F", "FH", "FV", "FHV"]):
@@ -1166,7 +1167,6 @@ class Model:
                         self.part_name_list[edit_frame][part_index][1] = ""
                         self.animation_part_list[edit_frame][part_index] = []
 
-
             elif edit_type == "new":  # new animation
                 self.animation_part_list = [{key: None for key in self.mask_part_list}] * max_frame
                 self.bodypart_list = [{key: value for key, value in self.all_part_list.items()}] * max_frame
@@ -1174,7 +1174,7 @@ class Model:
                 self.part_selected = []
 
             elif self.part_selected:
-                if edit_type == "place":  # find center point of all selected parts
+                if "place" in edit_type or "full_rotate" in edit_type:  # find center point of all selected parts
                     min_x = inf
                     min_y = inf
                     max_x = -inf
@@ -1207,8 +1207,8 @@ class Model:
                                 offset = (self.animation_part_list[edit_frame][part_index][2][0] - center[0],
                                           self.animation_part_list[edit_frame][part_index][2][1] - center[1])
                                 new_point = new_point + offset - showroom_base_point
-                                self.animation_part_list[edit_frame][part_index][2] = [round(new_point[0], 1),
-                                                                                       round(new_point[1], 1)]
+                                self.animation_part_list[edit_frame][part_index][2] = [int(new_point[0]),
+                                                                                       int(new_point[1])]
 
                             elif "move_" in edit_type:  # keyboard move
                                 try:
@@ -1255,6 +1255,32 @@ class Model:
                                     new_angle += 360
                                 elif new_angle > 360:
                                     new_angle -= 360
+                                self.animation_part_list[edit_frame][part_index][3] = new_angle
+
+                            elif "full_rotate_" in edit_type:  # keyboard rotate
+                                if "_1" in edit_type:
+                                    if shift_press:
+                                        move_angle = -10
+                                    else:
+                                        move_angle = -1
+                                elif "_2" in edit_type:
+                                    if shift_press:
+                                        move_angle = 10
+                                    else:
+                                        move_angle = 1
+
+                                new_point = rotation_xy(center, self.animation_part_list[edit_frame][part_index][2],
+                                                        radians(-move_angle))
+                                self.animation_part_list[edit_frame][part_index][2] = [round(new_point[0],0),
+                                                                                       round(new_point[1],0)]
+
+                                new_angle = self.animation_part_list[edit_frame][part_index][3] + move_angle
+
+                                if new_angle < 0:
+                                    new_angle += 360
+                                elif new_angle > 360:
+                                    new_angle -= 360
+
                                 self.animation_part_list[edit_frame][part_index][3] = new_angle
 
                             elif edit_type == "rotate":  # mouse rotate
@@ -1692,6 +1718,24 @@ activate_button = SwitchButton(("Enable", "Disable"), image,
                                             "Disabled frame will be cleared when change animation",
                                             "and will not be saved."))
 
+help_button = SwitchButton(("Help:ON", "Help:OFF"), image,
+                           (play_animation_button.pos[0] - play_animation_button.image.get_width() * 8.5,
+                            filmstrip_list[0].rect.midbottom[1] + (image.get_height() / 2)),
+                           description=("Enable or disable help popup.",
+                                        "The bold line in the showroom indicate animation base point.",
+                                        "Arrow keys to control showroom camera pos",
+                                        "Control for parts selection:", "Left Click on part = Part selection",
+                                        "Shift + Left Click = Add selection", "CTRL + Left Click = Remove selection",
+                                        "- (minus) or = (equal) = Previous or next frame",
+                                        "[ or ] = Previous or next animation",
+                                        "Control with selected parts: ", "W,A,S,D = Move", "Mouse Right = Place",
+                                        "Hold mouse wheel or Q,E = Rotate",
+                                        "R,T = Angle and pos rotate based on center of all selected parts",
+                                        "DEL = Clear part",
+                                        "Page Up/Down or Numpad +/- = Change layer",
+                                        "Some keyboard input like arrow key can be pressed along with Shift key to "
+                                        "change value by 10"))
+
 undo_button = Button("Undo", image, (play_animation_button.pos[0] - play_animation_button.image.get_width() * 6,
                                      filmstrip_list[0].rect.midbottom[1] + (image.get_height() / 2)),
                      description=("Undo to previous edit (CTRL + Z)",
@@ -1751,23 +1795,9 @@ grid_button = SwitchButton(("Grid:ON", "Grid:OFF"), image,
                            (screen_size[0] / 1.35,
                             p_body_helper.rect.midtop[1] - (image.get_height() * 3.5)),
                            description=("Show editor grid", "Display or hide animation editor grid."))
-help_button = SwitchButton(("Help:ON", "Help:OFF"), image,
-                           (screen_size[0] / 1.35,
-                            p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
-                           description=("Enable or disable help popup.",
-                                        "The bold line in the showroom indicate animation base point.",
-                                        "Arrow keys to control showroom camera pos",
-                                        "Control for parts selection:", "Left Click on part = Part selection",
-                                        "Shift + Left Click = Add selection", "CTRL + Left Click = Remove selection",
-                                        "- (minus) or = (equal) = Previous or next frame",
-                                        "[ or ] = Previous or next animation",
-                                        "Control with selected parts: ", "W,A,S,D = Move", "Mouse Right = Place",
-                                        "Hold mouse wheel or Q,E = Rotate", "DEL = Clear part",
-                                        "Page Up/Down or Numpad +/- = Change layer",
-                                        "Some keyboard input like arrow key can be pressed along with Shift key to "
-                                        "change value by 10"))
+
 showroom_colour_button = Button("Box RGB", image, (screen_size[0] / 1.35,
-                            p_body_helper.rect.midtop[1] - (image.get_height() * 5.5)),
+                            p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
                                 description=("Change showroom background colour",))
 export_full_button = Button("To m PNG", image, (part_copy_button.rect.topright[0] + image.get_width() * 2.5,
                                               p_body_helper.rect.midtop[1] - (image.get_height() * 2.5)),
@@ -2057,6 +2087,10 @@ while True:
                 model.edit_part(mouse_pos, "tilt_q", specific_frame=current_frame)
             elif key_press[pygame.K_e]:
                 model.edit_part(mouse_pos, "tilt_e", specific_frame=current_frame)
+            elif key_press[pygame.K_r]:
+                model.edit_part(mouse_pos, "full_rotate_1", specific_frame=current_frame)
+            elif key_press[pygame.K_t]:
+                model.edit_part(mouse_pos, "full_rotate_2", specific_frame=current_frame)
             elif key_press[pygame.K_DELETE]:
                 keypress_delay = 0.1
                 if model.part_selected:

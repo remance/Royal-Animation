@@ -3,6 +3,29 @@ from math import cos, sin, atan2, degrees
 from pygame import Vector2
 
 
+def find_angle_between_12(point1, point2):
+    dx = point2[0] - point1[0]
+    dy = point2[1] - point1[1]
+    rotate_radians = atan2(dy, dx)
+    new_angle = degrees(rotate_radians)
+    # """upper left -"""
+    if -180 <= new_angle <= -90:
+        new_angle = -new_angle - 90
+
+    # """upper right +"""
+    elif -90 < new_angle < 0:
+        new_angle = (-new_angle) - 90
+
+    # """lower right -"""
+    elif 0 <= new_angle <= 90:
+        new_angle = -(new_angle + 90)
+
+    # """lower left +"""
+    elif 90 < new_angle <= 180:
+        new_angle = 270 - new_angle
+    return new_angle
+
+
 def rotation_xy(origin, point, angle):
     """
     Rotate point to the new pos
