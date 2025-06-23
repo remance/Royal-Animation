@@ -18,7 +18,9 @@ def pick_cutscene_animation(self, action):
     self.current_action = action
     if "name" in self.current_action:  # pick animation with cutscene animation data
         animation_name = self.current_action["name"]
-        # self.angle = self.current_action["angle"]
+        if "replace_idle" in self.current_action:  # replace idle animation
+            self.replace_idle_animation = self.current_action["name"]
+
     else:  # idle animation
         if not self.replace_idle_animation:
             animation_name = "Idle"

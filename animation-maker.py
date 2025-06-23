@@ -1236,7 +1236,8 @@ class Model:
                                         new_point[0] = new_point[0] + 10
                                     else:
                                         new_point[0] = new_point[0] + 1
-                                self.animation_part_list[edit_frame][part_index][2] = new_point.copy()
+                                self.animation_part_list[edit_frame][part_index][2] = [int(new_point[0]),
+                                                                                       int(new_point[1])]
 
                             elif "tilt_" in edit_type:  # keyboard rotate
                                 new_angle = self.animation_part_list[edit_frame][part_index][3]

@@ -44,9 +44,9 @@ def move_logic(self, dt):
                 self.base_pos += move
                 if "forced move" not in self.current_action:  # die, knockdown does not change direction
                     if self.x_momentum > 0:
-                        self.new_angle = -90
+                        self.new_direction = "Right"
                     elif self.x_momentum < 0:
-                        self.new_angle = 90
+                        self.new_direction = "Left"
 
                 if self.base_pos[1] < -1000:
                     self.base_pos[1] = -1000

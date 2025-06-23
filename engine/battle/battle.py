@@ -20,7 +20,7 @@ from engine.uibattle.uibattle import FPSCount, BattleCursor, YesNo, CharacterSpe
     CourtBook, CityMap, ScreenFade, WheelUI
 from engine.uimenu.uimenu import TextPopup
 from engine.utils.common import clean_object, clean_group_object
-from engine.utils.data_loading import load_image, load_images, prepare_animation_sprite, filename_convert_readable as fcv
+from engine.utils.data_loading import load_image, load_images, filename_convert_readable as fcv
 from engine.utils.text_making import number_to_minus_or_plus
 from engine.weather.weather import Weather
 
@@ -81,6 +81,9 @@ class Battle:
 
     from engine.battle.fix_camera import fix_camera
     fix_camera = fix_camera
+
+    from engine.battle.load_battle_sprite_animation import load_battle_sprite_animation
+    load_battle_sprite_animation = load_battle_sprite_animation
 
     from engine.battle.make_battle_ui import make_battle_ui
     make_battle_ui = make_battle_ui
@@ -536,31 +539,8 @@ class Battle:
                 self.body_sprite_pool.pop(key)
 
         self.game.animation_data.load_data(chapter, character_list)  # this will load data if chapter is different
-        WheelUI.item_sprite_pool = self.default_body_sprite_pool[int(self.chapter)]["Item"]["special"]
-
-        for char_id in character_list:
-            for part_type in self.part_sprite_adjust[char_id]:
-                for part_name in self.part_sprite_adjust[char_id][part_type]:
-                    for key in self.part_sprite_adjust[char_id][part_type][part_name]:
-                        if part_type == "effect":
-                            animation_pool = self.effect_animation_pool
-                            sprite_chapter = int(self.chapter)
-                            default_pool = self.default_effect_animation_pool
-                        else:
-                            if self.char_sprite_chapter[char_id] not in self.body_sprite_pool:
-                                self.body_sprite_pool[self.char_sprite_chapter[char_id]] = {}
-                            if part_type not in self.body_sprite_pool[self.char_sprite_chapter[char_id]]:
-                                self.body_sprite_pool[self.char_sprite_chapter[char_id]][part_type] = {}
-                            animation_pool = self.body_sprite_pool[self.char_sprite_chapter[char_id]][part_type]
-                            if part_name not in animation_pool:
-                                animation_pool[part_name] = {}
-                            if key not in animation_pool[part_name]:
-                                animation_pool[part_name][key] = {}
-                            animation_pool = animation_pool[part_name][key]
-                            default_pool = self.default_body_sprite_pool
-                            sprite_chapter = self.char_sprite_chapter[char_id]
-                        prepare_animation_sprite(self.screen_scale, animation_pool, sprite_chapter, part_type, part_name, key,
-                                                 default_pool, self.part_sprite_adjust[char_id])
+        self.load_battle_sprite_animation(character_list)
+        # WheelUI.item_sprite_pool = self.default_body_sprite_pool[int(self.chapter)]["Item"]["special"]
         yield set_done_load()
 
         yield set_start_load(self, "common setup")

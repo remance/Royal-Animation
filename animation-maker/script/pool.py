@@ -85,10 +85,16 @@ def anim_save_pool(pool, chapter, race_name, anim_column_header):
             for frame_num, frame in enumerate(item[1]):
                 subitem = [tiny_item for tiny_item in list(frame.values())]
                 for item_index, min_item in enumerate(subitem):
-                    if type(min_item) == list:
-                        min_item = [this_item if type(this_item) != float else round(this_item, 1) for this_item in
+                    if type(min_item) is list:
+                        print(min_item)
+                        min_item = [this_item if type(this_item) is not float else round(this_item, 1) for this_item in
                                     min_item]
-                        min_item = [int(this_item) if type(this_item) == float and int(this_item) == this_item else
+                        if len(min_item) > 8:  # convert part pos to int
+                            if type(min_item[2]) is float:
+                                min_item[2] = int(min_item[2])
+                            if type(min_item[3]) is float:
+                                min_item[3] = int(min_item[3])
+                        min_item = [int(this_item) if type(this_item) is float and int(this_item) == this_item else
                                     this_item for this_item in min_item]
                         new_item = str(min_item)
                         for character in "'[]":

@@ -10,14 +10,14 @@ def enter_stage(self, animation_data_pool):
     self.animation_pool = animation_data_pool[self.char_id]
     exist_part = []  # list to remove unused body parts from loop entirely
     for animation in self.animation_pool.values():
-        for frame in animation["r_side"]:
+        for frame in animation["Right"]:
             for part, data in frame.items():
                 if data and part not in exist_part:
                     exist_part.append(part)
 
     self.body_parts = {key: value for key, value in self.body_parts.items() if key in exist_part}
     self.body_parts = {
-        key: BodyPart(self, key) if not any(ext in key for ext in ("weapon", )) else BodyPart(self, key, can_hurt=False)
+        key: BodyPart(self, key) if not any(ext in key for ext in ("weapon", )) else BodyPart(self, key)
         for key, value in self.body_parts.items()}
 
     # adjust layer

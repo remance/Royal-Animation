@@ -57,9 +57,9 @@ class CharacterData(GameData):
                                                                             index, stuff in enumerate(row2[1:])}
             edit_file.close()
 
-        self.character_portraits = load_images(self.data_dir, screen_scale=self.screen_scale,
-                                               subfolder=("character", "portrait"),
-                                               key_file_name_readable=True)
+        # self.character_portraits = load_images(self.data_dir, screen_scale=self.screen_scale,
+        #                                        subfolder=("character", "portrait"),
+        #                                        key_file_name_readable=True)
 
         # Effect that exist as its own sprite in battle
         self.effect_list = {}

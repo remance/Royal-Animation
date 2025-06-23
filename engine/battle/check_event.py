@@ -69,29 +69,21 @@ def check_event(self):
             if type(item[0]) is not tuple:
                 target_pos = (item[0].base_pos[0], item[0].base_pos[1] - (item[0].sprite_size * 4.5))
             distance = self.main_player_object.base_pos[0] - target_pos[0]
-            angle_check = 1
+            direction_check = "Right"
             if distance < 0:  # target at left side
-                angle_check = -1
-            if 50 <= abs(distance) <= 250 and \
-                    ((
-                             self.main_player_object.angle == 90 and angle_check == 1) or self.main_player_object.angle == -90):
+                direction_check = "Left"
+            if 50 <= abs(distance) <= 250 and self.main_player_object.sprite_direction == direction_check:
                 # use player with the lowest number as interactor
                 self.speech_prompt.add_to_screen(self.main_player_object, item[0], target_pos)
                 if self.player_key_press[self.main_player]["Weak"]:  # player interact, start event
                     self.speech_prompt.clear()  # remove prompt
-                    if (self.main_player_object.base_pos[0] - target_pos[0] < 0 and
-                        self.main_player_object.angle != -90) or \
-                            (self.main_player_object.base_pos[0] - target_pos[0] >= 0 and
-                             self.main_player_object.angle != 90):  # player face target
-                        self.main_player_object.new_angle *= -1
-                        self.main_player_object.rotate_logic()
 
                     if type(item[0]) is not tuple:
                         if (item[0].base_pos[0] - self.main_player_object.base_pos[0] < 0 and
-                            item[0].angle != -90) or \
+                            item[0].sprite_direction != "Right") or \
                                 (item[0].base_pos[0] - self.main_player_object.base_pos[0] >= 0 and
-                                 item[0].angle != 90):  # target face player
-                            item[0].new_angle *= -1
+                                 item[0].sprite_direction != "Left"):  # target change direction to face player
+                            item[0].new_direction *= -1
                             item[0].rotate_logic()
 
                     if "replayable" not in self.player_interact_event_list[item[0]][0][0]["Property"]:

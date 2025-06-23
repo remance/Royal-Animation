@@ -980,7 +980,7 @@ class CharacterSpeechBox(UIBattle):
     def update(self, dt):
         """Play unfold animation and blit text at the end"""
         direction_left = False
-        if self.character.angle == 90:  # left direction facing
+        if self.character.sprite_direction == "Left":  # left direction facing
             if self.head_part.rect.midleft[0] - (
                     self.battle.shown_camera_pos[0] - self.battle.camera.camera_w_center) < self.base_image.get_width():
                 self.base_image = self.right_image

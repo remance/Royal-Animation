@@ -36,4 +36,6 @@ def play_cutscene_animation(self, dt, hold_check):
             self.final_animation_play_time = self.default_animation_play_time
             if "play_time_mod" in self.current_animation_direction[self.show_frame]:
                 self.final_animation_play_time *= self.current_animation_direction[self.show_frame]["play_time_mod"]
+            if "animation_play_time_mod" in self.current_action:
+                self.final_animation_play_time *= self.current_action["animation_play_time_mod"]
     return False

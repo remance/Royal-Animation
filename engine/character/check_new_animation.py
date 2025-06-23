@@ -12,19 +12,7 @@ def check_new_animation(self, done):
     # low level action got replace with more important one, finish playing, skill animation and its effect end
     if (self.interrupt_animation and "uninterruptible" not in self.current_action) or \
             (((not self.current_action or "low level" in self.current_action) and
-              self.command_action) or done):
-        # finish current action
-        if done:
-            if self.current_moveset:
-                if self.current_moveset["Status"]:  # moveset apply status effect
-                    for effect in self.current_moveset["Status"]:
-                        self.apply_status(self, effect)
-                        for ally in self.near_ally:
-                            if ally[1] <= self.current_moveset["Range"]:  # apply status based on range
-                                ally[0].apply_status(self, effect)
-                            else:
-                                break
-
+              self.command_action) or done):  # finish current action
         # Reset action check
         if "next action" in self.current_action and (not self.interrupt_animation or not self.command_action) and \
                 (not self.current_moveset or "no auto next" not in self.current_moveset["Property"]):
@@ -38,7 +26,7 @@ def check_new_animation(self, done):
 
         elif "run" in self.current_action and not self.command_action:  # stop running, halt
             self.current_action = self.halt_command_action
-            if self.angle == -90:
+            if self.sprite_direction == "Right":
                 self.x_momentum = self.walk_speed
             else:
                 self.x_momentum = -self.walk_speed
@@ -66,7 +54,7 @@ def check_new_animation(self, done):
 
         if "x_momentum" in self.current_action and not isinstance(self.current_action["x_momentum"], bool):
             # action with specific x_momentum from data like attack action that move player, not for AI move
-            if self.angle != 90:
+            if self.sprite_direction == "Right":
                 self.x_momentum = self.current_action["x_momentum"]
             else:
                 self.x_momentum = -self.current_action["x_momentum"]

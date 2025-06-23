@@ -1,8 +1,3 @@
-rotation_list = (90, -90)
-rotation_name = ("Left", "Right")
-rotation_dict = {key: rotation_list[index] for index, key in enumerate(rotation_name)}
-
-
 def player_input(self, player_index, dt):
     """Only take movement key command in city mode"""
     if self.live:
@@ -13,7 +8,7 @@ def player_input(self, player_index, dt):
                 if pressed:
                     new_key = key
                     if key in ("Left", "Right"):  # replace left right input with forward one for moveset check
-                        if rotation_dict[key] == self.angle:
+                        if key == self.sprite_direction:
                             new_key = "Forward"
                         else:
                             new_key = "Backward"
@@ -47,13 +42,13 @@ def player_input(self, player_index, dt):
                 # delay input a bit so a bit of time pass before taking action
                 if self.last_command_key_input == "Left" or \
                         (self.command_key_hold and self.command_key_hold[-1] == "Left"):
-                    self.new_angle = 90
+                    self.new_direction = "Left"
                     if not self.current_action or "movable" in self.current_action:
                         self.x_momentum = -self.city_walk_speed / 10
 
                 elif self.last_command_key_input == "Right" or \
                         (self.command_key_hold and self.command_key_hold[-1] == "Right"):
-                    self.new_angle = -90
+                    self.new_direction = "Right"
                     if not self.current_action or "movable" in self.current_action:
                         self.x_momentum = self.city_walk_speed / 10
 

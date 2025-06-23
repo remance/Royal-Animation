@@ -191,7 +191,7 @@ def event_process(self):
                                     child_event["Object"]] |
                                 {"ID": child_event["Object"],
                                  "Ground Y POS": event_property["POS"][1],
-                                 "Scene": 1, "Team": 1, "Arrive Condition": {}, "Sprite Ver": self.chapter})
+                                 "Scene": 1, "Team": 1, "Sprite Ver": self.chapter})
                     self.cutscene_playing.remove(child_event)
                 elif child_event["Type"] == "place":  # place scene object
                     angle = None

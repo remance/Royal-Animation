@@ -17,9 +17,9 @@ def cinematic_ai(self):
 def observer_ai(self):
     """Keep facing target"""
     if self.target.base_pos[0] >= self.base_pos[0]:
-        self.new_angle = -90
+        self.new_direction = "Right"
     else:
-        self.new_angle = 90
+        self.new_direction = "Left"
 
 
 def common_ai(self):

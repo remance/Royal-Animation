@@ -29,7 +29,7 @@
 ,,"Miqqy","teaparty_arrive",,,"wait"
 ,"teaparty/5","Miqqy","teaparty_arrivetalk",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
 ,,"Miqqy","teaparty_arrivewait",,,"hold,repeat after"
-,,"Moon",,,,"angle:90"
+,,"Moon",,,,"direction:Left"
 ,,"Rabbit","teaparty_idle2","idle",,
 ,,"Rabbit","teaparty_greet",,,
 ,,"Lacrima","teaparty_smile",,,
@@ -40,7 +40,7 @@
 ,,"Rabbit","teaparty_idle","idle",,
 ,,"Rabbit","teaparty_faceback",,,
 ,,"Miqqy","teaparty_arrivesit",,,"wait"
-,,"Moon",,,,"angle:-90"
+,,"Moon",,,,"direction:Right"
 ,"teaparty/7","Miqqy","teaparty_talk1",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
 ,"teaparty/8","Miqqy","teaparty_talk2",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0)"
 ,"teaparty/9","Miqqy","teaparty_talk3",,,"timer:4,hold,wait,voice:(Parchment_write;3000;0),next action:{name=teaparty_talk3_end}"
@@ -146,17 +146,17 @@
 ,,"Trina","teaparty_idle5","idle",,
 ,,"Trina","teaparty_breadeat3",,,
 ,"teaparty/34","Miqqy","teaparty_talk12",,,"timer:3,wait,hold,voice:(Parchment_write;3000;0)"
-,,7,"pop_icecream",,,"hold,repeat after,POS:(-100;1200),speed:10000,angle:-90"
+,,7,"pop_icecream",,,"hold,repeat after,POS:(-100;1200),speed:10000,direction:Right"
 ,"teaparty/35","Miqqy","teaparty_talk13",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
-,,8,"pop_jam",,,"hold,repeat after,POS:(3900;1400),speed:10000,angle:90"
+,,8,"pop_jam",,,"hold,repeat after,POS:(3900;1400),speed:10000,direction:Left"
 ,"teaparty/36","Miqqy","teaparty_talk14",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
-,,9,"pop_ginger",,,"hold,repeat after,POS:(3400;1300),speed:10000,angle:90"
+,,9,"pop_ginger",,,"hold,repeat after,POS:(3400;1300),speed:10000,direction:Left"
 ,"teaparty/37","Miqqy","teaparty_talk15",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
-,,10,"pop_pudding",,,"hold,repeat after,POS:(0;1300),speed:10000,angle:-90"
+,,10,"pop_pudding",,,"hold,repeat after,POS:(0;1300),speed:10000,direction:Right"
 ,"teaparty/38","Miqqy","teaparty_talk16",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
-,,"Trinadoll","pop_cake",,,"hold,repeat after,POS:(3800;2300),speed:10000,angle:90"
+,,"Trinadoll","pop_cake",,,"hold,repeat after,POS:(3800;2300),speed:10000,direction:Left"
 ,"teaparty/39","Miqqy","teaparty_talk17",,,"timer:3,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
-,,"Miqdoll","pop_pie",,,"hold,repeat after,POS:(0;2200),speed:10000,angle:-90"
+,,"Miqdoll","pop_pie",,,"hold,repeat after,POS:(0;2200),speed:10000,direction:Right"
 ,"teaparty/40","Miqqy","teaparty_talk18",,,"Timer:5,wait,repeat after,hold,voice:(Parchment_write;3000;0)"
 ,,"camera","wait","cutscene",,"timer:3,wait"
 ,,"camera","blackout","cutscene",,"Timer:3,no auto fade out,wait"

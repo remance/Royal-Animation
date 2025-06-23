@@ -202,7 +202,7 @@ class Effect(Sprite):
                         if self.owner.nearest_enemy and "aim" in self.other_property:
                             # find the nearest enemy to target
                             if self.other_property["aim"] == "target":
-                                if self.owner.angle == 90:
+                                if self.owner.sprite_direction == "Left":
                                     stat[2] = uniform(self.owner.nearest_enemy.pos[0],
                                                       self.owner.nearest_enemy.pos[0] + (200 * self.screen_scale[0]))
                                 else:
@@ -214,7 +214,7 @@ class Effect(Sprite):
 
                             elif self.other_property["aim"] == "near target":
                                 if self.owner.nearest_enemy:  # find the nearest enemy to target
-                                    if self.owner.angle == 90:
+                                    if self.owner.sprite_direction == "Left":
                                         stat[2] = uniform(self.owner.nearest_enemy.pos[0],
                                                           self.owner.nearest_enemy.pos[0] + (
                                                                   500 * self.screen_scale[0]))
@@ -232,7 +232,7 @@ class Effect(Sprite):
                         else:  # random target instead
                             stat[2] = uniform(self.pos[0] - (self.travel_distance * self.screen_scale[0]),
                                               self.pos[0] + (self.travel_distance * self.screen_scale[0]))
-                            if self.owner.angle == 90:
+                            if self.owner.sprite_direction == "Left":
                                 stat[4] = uniform(160, 180)
                             else:
                                 stat[4] = uniform(-180, -160)
@@ -342,7 +342,7 @@ class DamageEffect(Effect):
                         scale_diff = (1 + (self.stuck_part.data[7] - self.base_stuck_stat[2][7]),
                                       1 + (self.stuck_part.data[8] - self.base_stuck_stat[2][8]))
                         x_diff = self.base_stuck_stat[0][0]
-                        if self.stuck_part.owner.angle != self.base_stuck_stat[3]:
+                        if self.stuck_part.owner.sprite_direction != self.base_stuck_stat[3]:
                             # different animation direction
                             x_diff = -x_diff
                             self.angle = -self.angle
@@ -363,7 +363,7 @@ class DamageEffect(Effect):
                         self.pos[1] += self.base_stuck_stat[0][1] * scale_diff[1]
 
                         if self.stuck_part.data[4] != self.base_stuck_stat[2][4]:  # stuck part data change
-                            if self.stuck_part.owner.angle != self.base_stuck_stat[3]:  # different direction
+                            if self.stuck_part.owner.sprite_direction != self.base_stuck_stat[3]:  # different direction
                                 angle_dif = self.stuck_part.data[4] + self.base_stuck_stat[2][4]
                                 self.angle += self.stuck_part.data[4] + self.base_stuck_stat[2][4]
                             else:

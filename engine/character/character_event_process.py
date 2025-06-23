@@ -79,15 +79,15 @@ def character_event_process(self, event, event_property):
                 if character2.game_id == event_property["target"]:  # go to target pos
                     self.cutscene_target_pos = character2.base_pos
                     break
-        if "angle" in event_property:
-            if event_property["angle"] == "target":
+        if "direction" in event_property:
+            if event_property["direction"] == "target":
                 # facing target must have cutscene_target_pos
                 if self.cutscene_target_pos[0] >= self.base_pos[0]:
-                    self.new_angle = -90
+                    self.new_direction = "Right"
                 else:
-                    self.new_angle = 90
+                    self.new_direction = "Left"
             else:
-                self.new_angle = int(event_property["angle"])
+                self.new_direction = event_property["direction"].capitalize()
             self.rotate_logic()
         animation = event["Animation"]
         action_dict = event_property
@@ -123,9 +123,9 @@ def start_speech(self, event, event_property):
         # selecting event, also infinite timer but not add player input indication
         specific_timer = infinity
 
-    if "angle" in event_property:
-        if self.angle != event_property["angle"]:  # change speech angle
-            self.new_angle *= -1
+    if "direction" in event_property:
+        if self.sprite_direction != event_property["direction"]:  # change speech angle
+            self.new_direction = event_property["direction"].capitalize()
             self.rotate_logic()
 
     self.speech = CharacterSpeechBox(self, self.battle.localisation.grab_text(("event", event["Text ID"], "Text")),

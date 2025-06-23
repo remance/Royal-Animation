@@ -255,7 +255,6 @@ class SliderMenu(UIMenu):
             self.value = (self.mouse_value - self.min_value) / 2
         else:  # for revert, cancel or esc in the option menu
             self.value = forced_value
-        print(self.mouse_value, self.value, self.event)
         self.mouse_value = (self.slider_size * self.value / 100) + self.difference
         self.image = self.base_image.copy()
         button_rect = self.button_image_list[1].get_rect(center=(self.mouse_value, self.image.get_height() / 2))

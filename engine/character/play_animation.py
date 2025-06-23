@@ -36,6 +36,8 @@ def play_animation(self, dt, hold_check):
 
             if "play_time_mod" in self.current_animation_direction[self.show_frame]:
                 self.final_animation_play_time *= self.current_animation_direction[self.show_frame]["play_time_mod"]
+            if "animation_play_time_mod" in self.current_action:
+                self.final_animation_play_time *= self.current_action["animation_play_time_mod"]
     elif self.just_change_mode:
         if hold_check:  # only do this when hold to change sprite mode
             self.start_animation_body_part()

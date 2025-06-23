@@ -24,7 +24,7 @@ class AnimationData(GameData):
         self.stage_object_animation_pool = {}
         self.char_sprite_chapter = {}
 
-    def load_data(self, chapter, character_list=None):
+    def load_data(self, chapter, character_list=None, exclude_list=("EXCLUDE",), only_list=()):
         if self.chapter != chapter:  # new chapter load, reload all assets
             self.chapter = chapter
             self.part_sprite_adjust.clear()
@@ -47,8 +47,8 @@ class AnimationData(GameData):
                     # get only latest and nearest existing chapter animation for each character
                     # update to new chapter
                     self.char_sprite_chapter[file_data_name] = int(sub_folder)
-                    with (open(join(self.data_dir, "animation", str(chapter), file + ".csv"), encoding="utf-8",
-                               mode="r")) as edit_file:
+                    with ((open(join(self.data_dir, "animation", str(chapter), file + ".csv"), encoding="utf-8",
+                               mode="r")) as edit_file):
                         rd = tuple(csv.reader(edit_file, quoting=csv.QUOTE_ALL))
                         part_name_header = rd[0]
                         list_column = ["head", "neck", "body", "r_arm_up", "r_arm_low", "r_hand", "l_arm_up",
@@ -68,19 +68,21 @@ class AnimationData(GameData):
                         animation_pool = {}
 
                         for row_index, row in enumerate(rd):
-                            if row_index > 0 and "EXCLUDE_" not in row[0]:
+                            if row_index > 0 and ("Default" in row[0] or
+                                                  (any(ext not in row[0] for ext in exclude_list) and (
+                                    not only_list or any(ext in row[0] for ext in only_list)))):
                                 key = row[0].split("/")[0]
                                 for n, i in enumerate(row):
                                     row = stat_convert(row, n, i, list_column=list_column)
                                 row = row[1:]
 
                                 if key in animation_pool:
-                                    animation_pool[key]["r_side"].append(
+                                    animation_pool[key]["Right"].append(
                                         {part_name_header[item_index]: item for item_index, item in enumerate(row)})
                                 else:
-                                    animation_pool[key] = {"r_side": [{part_name_header[item_index]: item for
+                                    animation_pool[key] = {"Right": [{part_name_header[item_index]: item for
                                                                        item_index, item in enumerate(row)}],
-                                                           "l_side": []}
+                                                           "Left": []}
                                 flip_row = row.copy()  # flip sprite data for left direction
                                 for part_index, part_data in enumerate(flip_row):
                                     if part_data and type(part_data) is list and "property" not in part_name_header[
@@ -92,7 +94,7 @@ class AnimationData(GameData):
                                         else:
                                             flip_row[part_index][5] = 0
 
-                                animation_pool[key]["l_side"].append(
+                                animation_pool[key]["Left"].append(
                                     {part_name_header[item_index]: item for item_index, item in
                                      enumerate(flip_row)})
 
@@ -170,16 +172,16 @@ class AnimationData(GameData):
 
                         # since pool data cannot be changed later, use tuple instead
                         for key in animation_pool:
-                            for index in range(len(animation_pool[key]["l_side"])):
-                                animation_pool[key]["l_side"][index] = {
+                            for index in range(len(animation_pool[key]["Left"])):
+                                animation_pool[key]["Left"][index] = {
                                     key: tuple(value) if type(value) is list else value
                                     for key, value in
-                                    animation_pool[key]["l_side"][index].items()}
-                            for index in range(len(animation_pool[key]["r_side"])):
-                                animation_pool[key]["r_side"][index] = {
+                                    animation_pool[key]["Left"][index].items()}
+                            for index in range(len(animation_pool[key]["Right"])):
+                                animation_pool[key]["Right"][index] = {
                                     key: tuple(value) if type(value) is list else value
                                     for key, value in
-                                    animation_pool[key]["r_side"][index].items()}
+                                    animation_pool[key]["Right"][index].items()}
                         self.character_animation_data[file_data_name] = animation_pool
                     edit_file.close()
 

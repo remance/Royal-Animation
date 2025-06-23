@@ -58,6 +58,9 @@ def pick_animation(self):
             self.continue_moveset = None
             animation_name = self.current_action["name"]
 
+        if "replace_idle" in self.current_action:  # replace idle animation
+            self.replace_idle_animation = self.current_action["name"]
+
     else:  # idle animation
         self.current_moveset = None
         self.continue_moveset = None
@@ -89,6 +92,8 @@ def pick_animation(self):
     self.final_animation_play_time = self.animation_play_time  # get new play speed
     if "play_time_mod" in self.current_animation_direction[self.show_frame]:
         self.final_animation_play_time *= self.current_animation_direction[self.show_frame]["play_time_mod"]
+    if "animation_play_time_mod" in self.current_action:
+        self.final_animation_play_time *= self.current_action["animation_play_time_mod"]
 
     if self.current_animation_direction[self.show_frame]["sound_effect"]:  # play sound from animation
         sound = self.current_animation_direction[self.show_frame]["sound_effect"]

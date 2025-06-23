@@ -36,7 +36,11 @@
 
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_lacrima.png?raw=true" width="200" height="200"></a>   
 
+## Nightreign Revenant (Version: Doll)
 
+<p float="left">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_revvy_doll.png?raw=true" width="200" height="200">
+</p>
 
 For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
 page.

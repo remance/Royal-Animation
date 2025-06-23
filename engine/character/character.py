@@ -11,10 +11,6 @@ from pygame.transform import flip, smoothscale, rotate
 from engine.character.ai_move import ai_move_dict
 from engine.uibattle.uibattle import CharacterIndicator
 
-rotation_list = (90, -90)
-rotation_name = ("l_side", "r_side")
-rotation_dict = {key: rotation_name[index] for index, key in enumerate(rotation_list)}
-
 infinity = float("inf")
 
 
@@ -82,7 +78,9 @@ class Character(Sprite):
 
     def __init__(self, battle_camera, game_id, layer_id, stat, player_control=False):
         """
-        Character object represent a character that may or may not fight in battle
+        Character object represent a character that can appear in "battle", the object control movement behaviour, animation, action, removal, and
+        act as parent object of body parts, and effects.
+        Note that character is not sprite despite the pygame Sprite parent, it only use sprite group for container updater
         """
         Sprite.__init__(self, self.containers)
         self.screen_scale = self.battle.screen_scale
@@ -137,7 +135,6 @@ class Character(Sprite):
         self.sprite_size = stat["Size"] * 10 * self.screen_scale[
             1]  # use for pseudo sprite size of character for positioning of effect
         self.sprite_height = (100 + stat["Size"]) * self.screen_scale[1]
-        self.arrive_condition = stat["Arrive Condition"]
 
         self.city_walk_speed = 500  # movement speed in city, not affected by anything
         self.ground_pos = self.base_ground_pos
@@ -148,16 +145,9 @@ class Character(Sprite):
         self.animation_play_time = self.base_animation_play_time
         self.final_animation_play_time = self.animation_play_time
 
-        self.fall_gravity = self.battle.base_fall_gravity
-        self.angle = -90
-        if "Angle" in stat:
-            self.angle = stat["Angle"]
-        self.new_angle = self.angle
-        self.radians_angle = radians(360 - self.angle)  # radians for apply angle to position
-        self.run_direction = 0  # direction check to prevent character able to run in opposite direction right away
-        self.sprite_direction = rotation_dict[min(rotation_list,
-                                                  key=lambda x: abs(
-                                                      x - self.angle))]  # find closest in list of rotation for sprite direction
+        self.run_direction = None  # direction check to prevent character able to run in opposite direction right away
+        self.sprite_direction = stat["Direction"]
+        self.new_direction = self.sprite_direction
 
         self.char_id = str(stat["ID"])
         # self.char_id_event = self.char_id + "_"  # for faster event check instead of having to + "_" every time
@@ -189,13 +179,31 @@ class Character(Sprite):
                                 p + "_special_7": None, p + "_special_8": None, p + "_special_9": None,
                                 p + "_special_10": None}
 
-        self.retreat_stage_end = self.battle.base_stage_end + self.sprite_size
-        self.retreat_stage_start = -self.sprite_size
+        char_property = {}
+        if "Property" in stat:
+            char_property = {key: value for key, value in stat["Property"].items()}
+        if "Stage Property" in stat:
+            char_property |= stat["Stage Property"]
+        for stuff in char_property:  # set attribute from property
+            if stuff == "target":
+                if type(char_property["target"]) is int:  # target is AI
+                    target = char_property["target"]
+                else:  # target is player
+                    target = char_property["target"][-1]
+
+                for this_char in self.battle.all_chars:
+                    if target == this_char.game_id:  # find target char object
+                        self.target = this_char
+                        break
+            elif stuff == "idle":  # replace idle animation
+                self.replace_idle_animation = char_property["idle"]
+            else:
+                self.__setattr__(stuff, char_property[stuff])
 
     def update(self, dt):
         self.ai_update(dt)
 
-        if self.angle != self.new_angle:  # Rotate Function
+        if self.sprite_direction != self.new_direction:  # Rotate Function
             self.rotate_logic()
         self.move_logic(dt)  # Move function
         done = self.play_animation(dt, False)
@@ -315,27 +323,6 @@ class AICharacter(Character):
         if "Ground Y POS" in stat and stat["Ground Y POS"]:  # replace ground pos based on data in scene
             self.ground_pos = stat["Ground Y POS"]
 
-        char_property = {}
-        if "Property" in stat:
-            char_property = {key: value for key, value in stat["Property"].items()}
-        if "Stage Property" in stat:
-            char_property |= stat["Stage Property"]
-        for stuff in char_property:  # set attribute from property
-            if stuff == "target":
-                if type(char_property["target"]) is int:  # target is AI
-                    target = char_property["target"]
-                else:  # target is player
-                    target = char_property["target"][-1]
-
-                for this_char in self.battle.all_chars:
-                    if target == this_char.game_id:  # find target char object
-                        self.target = this_char
-                        break
-            elif stuff == "idle":  # replace idle animation
-                self.replace_idle_animation = char_property["idle"]
-            else:
-                self.__setattr__(stuff, char_property[stuff])
-
         self.ai_timer = 0  # for whatever timer require for AI action
         self.ai_movement_timer = 0  # timer to move for AI
         self.ai_attack_timer = 0  # timer to attack for AI
@@ -358,13 +345,15 @@ class BodyPart(Sprite):
     body_sprite_pool = None
     empty_surface = pygame.Surface((0, 0))
 
-    def __init__(self, owner, part, can_hurt=True):
+    def __init__(self, owner, part):
+        """Body parts are object of individual part of character, e.g., hand, head. They are blit onto the screen as sprite using animation data
+        from the parent character"""
         self.screen_scale = self.battle.screen_scale
         self.owner = owner
         self.battle_camera = owner.battle_camera
         self.sprite_ver = self.owner.sprite_ver
         self.owner_layer = 0
-        self.angle = self.owner.angle
+        self.sprite_direction = self.owner.sprite_direction
         self._layer = 10
         Sprite.__init__(self, self.containers)
         self.image_update_contains = []  # object that need updating when base_image get updated
@@ -377,7 +366,6 @@ class BodyPart(Sprite):
         if "special" in self.part:
             self.part = "_".join(self.part.split("_")[:-1])
         self.stuck_effect = []  # effect that stuck on this body part
-        self.can_hurt = can_hurt
         self.object_type = "body"
         self.mode = "Normal"
         self.base_image = self.empty_surface
@@ -403,7 +391,7 @@ class BodyPart(Sprite):
         return image
 
     def get_part(self, data):
-        self.angle = self.owner.angle
+        self.sprite_direction = self.owner.sprite_direction
         self.mode = self.owner.mode_list[self.owner.mode][self.part]
 
         if self.data != data or self.owner.just_change_mode:
