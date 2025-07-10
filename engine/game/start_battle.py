@@ -1,7 +1,5 @@
 import gc
-from datetime import datetime
 from os.path import join as path_join
-from random import choices
 
 from pygame.mixer import music
 

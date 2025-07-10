@@ -1,25 +1,24 @@
+import configparser
 import os
-import ast
+import sys
+
+import keyboard
 import pygame
+import screeninfo
 import win32api
 import win32con
 import win32gui
-import configparser
-import sys
-import keyboard
-import screeninfo
-
 from pygame import sprite
 from pygame.locals import *
 
 from engine.camera.camera import Camera
 from engine.character.character import Character, BodyPart
+from engine.data.datalocalisation import Localisation
 from engine.data.datasound import SoundData
 from engine.data.datasprite import AnimationData
 from engine.data.datastat import CharacterData
 from engine.effect.effect import Effect
 from engine.game.game import Game
-from engine.data.datalocalisation import Localisation
 from engine.utils.data_loading import stat_convert
 
 
@@ -40,7 +39,6 @@ class FakeBattle:
 
 
 class Overlay:
-
     from engine.battle.load_battle_sprite_animation import load_battle_sprite_animation
     load_battle_sprite_animation = load_battle_sprite_animation
 
@@ -106,8 +104,10 @@ class Overlay:
         l_ex_style |= win32con.WS_EX_TRANSPARENT | win32con.WS_EX_LAYERED
         win32gui.SetWindowLong(self.display, win32con.GWL_EXSTYLE,
                                win32gui.GetWindowLong(self.display, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
-        win32gui.SetLayeredWindowAttributes(self.display, win32api.RGB(*self.alpha_colour), 0, win32con.LWA_COLORKEY)  # Setting window color to transparent
-        win32gui.SetWindowPos(self.display, win32con.HWND_TOPMOST, position[0], position[1], 0, 0, win32con.SWP_NOSIZE)  # Setting window to always be on top
+        win32gui.SetLayeredWindowAttributes(self.display, win32api.RGB(*self.alpha_colour), 0,
+                                            win32con.LWA_COLORKEY)  # Setting window color to transparent
+        win32gui.SetWindowPos(self.display, win32con.HWND_TOPMOST, position[0], position[1], 0, 0,
+                              win32con.SWP_NOSIZE)  # Setting window to always be on top
         win32gui.SetWindowLong(self.display, win32con.GWL_EXSTYLE, l_ex_style)
 
         # os.environ['SDL_WINDOWID'] = str(self.frame.winfo_id())
@@ -165,11 +165,12 @@ class Overlay:
         self.battle_camera = sprite.LayeredUpdates()
 
         stat = {}
-        stat_convert(stat, 0, self.config["DEFAULT"]["character"], dict_column=(0, ))
+        stat_convert(stat, 0, self.config["DEFAULT"]["character"], dict_column=(0,))
         stat = stat[0]
         stat |= self.character_data.character_list[stat["ID"]]
         character_list = [stat["ID"]]
-        self.animation_data.load_data(self.chapter, character_list, only_list=("OVERLAY",))  # this will load data if chapter is different
+        self.animation_data.load_data(self.chapter, character_list,
+                                      only_list=("OVERLAY",))  # this will load data if chapter is different
         self.load_battle_sprite_animation(character_list)
         self.actor = Character(self.battle_camera, 1, 1, stat)
 

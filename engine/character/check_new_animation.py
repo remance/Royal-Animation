@@ -1,13 +1,4 @@
-from random import randint, uniform
-
-from pygame import Vector2
-
-from engine.effect.effect import Effect
-from engine.uibattle.uibattle import DamageNumber
-
-
 def check_new_animation(self, done):
-
     # Pick new action and animation, either when animation finish or get interrupt,
     # low level action got replace with more important one, finish playing, skill animation and its effect end
     if (self.interrupt_animation and "uninterruptible" not in self.current_action) or \

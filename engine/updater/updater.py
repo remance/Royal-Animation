@@ -8,7 +8,6 @@ class ReversedLayeredUpdates(LayeredUpdates):
     def add_internal(self, sprite, layer=None):
         """
         Change add internal to order the sprite list from top to bottom instead of the original bottom to top
-
         """
         self.spritedict[sprite] = self._init_rect
 

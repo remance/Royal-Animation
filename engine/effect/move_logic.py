@@ -1,7 +1,6 @@
 from math import cos, sin, radians
 
 from pygame import Vector2
-from pygame.transform import smoothscale, flip
 
 
 def move_logic(self, dt, done):

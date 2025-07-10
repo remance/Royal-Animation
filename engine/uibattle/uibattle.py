@@ -5,11 +5,11 @@ from random import choice
 
 from pygame import Vector2, Surface, SRCALPHA, Color, Rect, draw, mouse
 from pygame.font import Font
-from pygame.transform import smoothscale, rotate, flip
+from pygame.transform import smoothscale, flip
 
 from engine.uimenu.uimenu import UIMenu
 from engine.utils.text_making import number_to_minus_or_plus, text_render_with_bg, text_render_with_texture, \
-    minimise_number_text, make_long_text
+    make_long_text
 
 team_colour = {0: Color("grey"), 1: Color("black"), 2: Color("red"), 3: Color("blue"), 4: Color("darkgoldenrod1"),
                5: Color("purple"), 6: Color("orange"),
@@ -891,7 +891,7 @@ class CharacterSpeechBox(UIBattle):
         body_top = smoothscale(self.images["speech_body_top"], (self.text_surface.get_width(),
                                                                 self.images["speech_body_top"].get_height()))
         body_bottom = smoothscale(self.images["speech_body_bottom"], (self.text_surface.get_width(),
-                                                                self.images["speech_body_bottom"].get_height()))
+                                                                      self.images["speech_body_bottom"].get_height()))
 
         self.base_image = Surface((self.text_surface.get_width() + start_top.get_width() + end_top.get_width(),
                                    self.text_surface.get_height() + start_top.get_height() + start_bottom.get_height()),
@@ -928,7 +928,7 @@ class CharacterSpeechBox(UIBattle):
         self.right_image.blit(self.text_surface, text_rect)
 
         text_rect = self.text_surface.get_rect(topright=(self.base_image.get_width() - start_mid_rect.topright[0],
-                                                             start_mid_rect.topright[1]))
+                                                         start_mid_rect.topright[1]))
         self.left_image.blit(self.text_surface, text_rect)
 
         if player_input_indicator:  # add player weak button indicate for closing speech in cutscene
@@ -970,9 +970,10 @@ class CharacterSpeechBox(UIBattle):
             if len(text) > 20:
                 self.timer += int(len(text) / 20)
         if add_log:
-            self.battle.main_story_profile["dialogue log"].append(("(" + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + ")" +
-                                            " ch." + self.battle.chapter + "." + self.battle.mission + "." +
-                                            self.battle.stage + " " + self.character.show_name + ": ", add_log))
+            self.battle.main_story_profile["dialogue log"].append(
+                ("(" + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + ")" +
+                 " ch." + self.battle.chapter + "." + self.battle.mission + "." +
+                 self.battle.stage + " " + self.character.show_name + ": ", add_log))
             if len(self.battle.main_story_profile["dialogue log"]) > 500:
                 self.battle.main_story_profile["dialogue log"] = self.battle.main_story_profile["dialogue log"][1:]
         self.update(0)

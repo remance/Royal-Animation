@@ -12,7 +12,8 @@ class StageObject(sprite.Sprite):
     screen_scale = None
     stage_object_animation_pool = None
 
-    def __init__(self, battle_camera, sprite_id, pos, game_id=0, angle=0, flip=0, animation_speed=0.1, width_scale=1, height_scale=1):
+    def __init__(self, battle_camera, sprite_id, pos, game_id=0, angle=0, flip=0, animation_speed=0.1, width_scale=1,
+                 height_scale=1):
         """Stage object with animation"""
         self._layer = 1
         sprite.Sprite.__init__(self, self.containers)
@@ -46,9 +47,11 @@ class StageObject(sprite.Sprite):
 
 
 class RotateStageObject(StageObject):
-    def __init__(self, battle_camera, sprite_id, pos, game_id=0, angle=0, flip=0, animation_speed=0.1, width_scale=1, height_scale=1,
+    def __init__(self, battle_camera, sprite_id, pos, game_id=0, angle=0, flip=0, animation_speed=0.1, width_scale=1,
+                 height_scale=1,
                  rotate_speed=10, rotate_left=True):
-        StageObject.__init__(self, battle_camera, sprite_id, pos, game_id, angle, flip, animation_speed, width_scale, height_scale)
+        StageObject.__init__(self, battle_camera, sprite_id, pos, game_id, angle, flip, animation_speed, width_scale,
+                             height_scale)
         self.rotate_speed = rotate_speed
         self.rotate_left = rotate_left
 
@@ -62,5 +65,3 @@ class RotateStageObject(StageObject):
         elif self.angle < 0:
             self.angle = 360
         self.play_animation(self.animation_speed, dt)  # TODO add sound effect to scene object
-
-

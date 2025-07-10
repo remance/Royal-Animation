@@ -1,4 +1,3 @@
-from pygame.mask import from_surface
 from pygame.transform import rotate, flip, smoothscale
 
 

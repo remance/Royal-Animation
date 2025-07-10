@@ -1,7 +1,4 @@
-import copy
-from random import uniform
-
-from engine.character.character import Character, AICharacter, PlayerCharacter
+from engine.character.character import AICharacter
 
 
 def spawn_character(self, char_list):

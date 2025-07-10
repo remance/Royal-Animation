@@ -169,8 +169,9 @@ class Effect(Sprite):
                 stat = [self.reach_effect, "Base", new_pos[0], new_pos[1], 0, 0, 0, 1]
                 if "reach spawn ground" in self.effect_stat[
                     "Property"]:  # reach effect spawn with rect bottom on ground
-                    height = self.effect_animation_pool[self.reach_effect]["Base"][self.width_scale][self.height_scale][0][
-                                 self.flip].get_height() / 4
+                    height = \
+                    self.effect_animation_pool[self.reach_effect]["Base"][self.width_scale][self.height_scale][0][
+                        self.flip].get_height() / 4
                     stat[3] = self.pos[1] - height
                 if "spawn all angle" in self.effect_stat["Property"]:
                     stat[4] = uniform(0, 359)
@@ -190,7 +191,8 @@ class Effect(Sprite):
                 elif "spawn other" in self.other_property:
                     effect_stat = [self.other_property["spawn other"][0], self.other_property["spawn other"][1],
                                    self.part_stat[2], self.part_stat[3],
-                                   self.part_stat[4], self.part_stat[5], self.part_stat[6], self.part_stat[7], self.part_stat[8]]
+                                   self.part_stat[4], self.part_stat[5], self.part_stat[6], self.part_stat[7],
+                                   self.part_stat[8]]
                 if effect_stat:
                     spawn_number = 1
                     if "spawn number" in self.other_property:
@@ -447,7 +449,8 @@ class TrapEffect(Effect):
             self.activate_trap()
 
     def activate_trap(self):
-        self.current_animation = self.animation_pool["Activate"][self.width_scale][self.height_scale]  # change image to base
+        self.current_animation = self.animation_pool["Activate"][self.width_scale][
+            self.height_scale]  # change image to base
         self.animation_speed = self.default_animation_speed  # reset animation play speed
         if len(self.current_animation) == 1:  # effect with no animation play a bit longer
             self.animation_speed = 0.2

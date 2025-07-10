@@ -1,11 +1,10 @@
-from math import radians
+from random import uniform
 from random import uniform
 from types import MethodType
 
 import pygame
-from pygame import sprite, Vector2
+from pygame import Vector2
 from pygame.sprite import Sprite
-from pygame.mask import from_surface
 from pygame.transform import flip, smoothscale, rotate
 
 from engine.character.ai_move import ai_move_dict
@@ -255,7 +254,8 @@ class Character(Sprite):
             if (not self.cutscene_event and done and not self.cutscene_target_pos) or \
                     (self.cutscene_target_pos and self.cutscene_target_pos == self.base_pos) or \
                     (self.cutscene_event and not self.cutscene_target_pos and
-                     ((done or hold_check) and not self.cutscene_target_pos and "interact" not in self.current_action and
+                     ((
+                              done or hold_check) and not self.cutscene_target_pos and "interact" not in self.current_action and
                       "select" not in self.current_action and "wait" in self.current_action and not self.speech)):
                 if self.cutscene_event in self.battle.cutscene_playing:
                     self.battle.cutscene_playing.remove(self.cutscene_event)
@@ -360,7 +360,6 @@ class BodyPart(Sprite):
         self.sprite_direction = self.owner.sprite_direction
         self._layer = 10
         Sprite.__init__(self, self.containers)
-        self.image_update_contains = []  # object that need updating when base_image get updated
         self.part = part
         self.part_name = self.part[3:]
         if self.part_name[0:2] == "l_" or self.part_name[0:2] == "r_":
@@ -374,7 +373,8 @@ class BodyPart(Sprite):
         self.mode = "Normal"
         self.base_image = self.empty_surface
         self.image = self.empty_surface
-        self.data = ()  # index 1=part name, 2and3=pos xy, 4=angle, 5=flip, 6=layer , 7=width scale, 8=height scale, 9=deal damage or not
+        # index 1=part name, 2and3=pos xy, 4=angle, 5=flip, 6=layer , 7=width scale, 8=height scale, 9=deal damage
+        self.data = ()
         self.rect = self.image.get_rect(topleft=(0, 0))
         # self.mask = from_surface(self.image)
 
@@ -402,30 +402,38 @@ class BodyPart(Sprite):
             self.data = data
             sprite_type = self.data[0]
             sprite_name = self.data[1]
-            if self.image_update_contains:  # update any object after getting base image
-                # part with update must always have 0 flip 0 angle and 1 scale in animation data to work will apply rotate later
-                self.base_image = \
-                    self.body_sprite_pool[self.sprite_ver][sprite_type]["special"][self.data[1]][self.mode][0][1][0]
-                for item in self.image_update_contains:
-                    item.update()
-            else:
-                # index 1=part name, 2and3=pos xy, 4=angle, 5=flip, 7=width scale 8 = height scale
-                if "special" in self.part_name:
-                    if sprite_name == "Template" and "change_sprite" in self.owner.current_action:
-                        # template sprite that need replace
-                        sprite_type = self.owner.current_action["change_sprite"]
-                        if sprite_type == "Item" and "item" in self.owner.current_action:  # change to item using
+
+            # index 1=part name, 2and3=pos xy, 4=angle, 5=flip, 7=width scale 8 = height scale
+            if "special" in self.part_name:
+                if sprite_name == "Template" and "change_sprite" in self.owner.current_action:
+                    # template sprite that need replace
+                    sprite_type = self.owner.current_action["change_sprite"]
+                    if sprite_type == "Item" and "item" in self.owner.current_action:  # change to item using
+                        if self.mode in self.body_sprite_pool[self.sprite_ver][sprite_type]["special"]:
                             self.image = \
                                 self.body_sprite_pool[self.sprite_ver][sprite_type]["special"][self.mode][
                                     self.owner.current_action["item"]]
-                            self.image = self.adjust_image(self.image, self.data)
-                    else:
+                        else:  # try normal part
+                            self.image = \
+                                self.body_sprite_pool[self.sprite_ver][sprite_type]["special"]["Normal"][
+                                    self.owner.current_action["item"]]
+                        self.image = self.adjust_image(self.image, self.data)
+                else:
+                    if self.mode in self.body_sprite_pool[self.sprite_ver][sprite_type]["special"][sprite_name]:
                         self.image = \
                             self.body_sprite_pool[self.sprite_ver][sprite_type]["special"][sprite_name][self.mode][
                                 self.data[5]][self.data[7]][self.data[8]][self.data[4]]
-                else:
+                    else:
+                        self.image = \
+                            self.body_sprite_pool[self.sprite_ver][sprite_type]["special"][sprite_name]["Normal"][
+                                self.data[5]][self.data[7]][self.data[8]][self.data[4]]
+            else:
+                if self.mode in self.body_sprite_pool[self.sprite_ver][sprite_type][self.part_name][sprite_name]:
                     self.image = self.body_sprite_pool[self.sprite_ver][sprite_type][self.part_name][
                         sprite_name][self.mode][self.data[5]][self.data[7]][self.data[8]][self.data[4]]
+                else:
+                    self.image = self.body_sprite_pool[self.sprite_ver][sprite_type][self.part_name][
+                        sprite_name]["Normal"][self.data[5]][self.data[7]][self.data[8]][self.data[4]]
 
             self.re_rect()
             if self in self.battle_camera:

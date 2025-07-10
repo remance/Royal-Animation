@@ -6,7 +6,7 @@ from pathlib import Path
 from PIL import Image
 from pygame import image
 from pygame.mixer import Sound
-from pygame.transform import smoothscale, flip, rotate
+from pygame.transform import smoothscale, flip
 
 from engine.utils.sprite_altering import sprite_rotate
 
@@ -83,7 +83,7 @@ def load_images(directory, screen_scale=(1, 1), subfolder=(), key_file_name_read
         return images
 
     except FileNotFoundError as b:
-        print(b)
+        print("file not found", b)
         return images
 
 
@@ -145,7 +145,8 @@ def recursive_merge(dict1, dict2):
     return dict1
 
 
-def prepare_animation_sprite(screen_scale, save_pool, chapter, part_type, part_name, key, sprite_pool, part_sprite_adjust):
+def prepare_animation_sprite(screen_scale, save_pool, chapter, part_type, part_name, key, sprite_pool,
+                             part_sprite_adjust):
     imgs = sprite_pool
     if part_sprite_adjust:
         if part_type != "weapon":
@@ -166,16 +167,22 @@ def prepare_animation_sprite(screen_scale, save_pool, chapter, part_type, part_n
                                     flip_image = flip(flip_image, True, False)
                                 for width_scale in part_sprite_adjust[part_type][part_name][key][flip_value]:
                                     imgs[mode][flip_value][width_scale] = {}
-                                    for height_scale in part_sprite_adjust[part_type][part_name][key][flip_value][width_scale]:
+                                    for height_scale in part_sprite_adjust[part_type][part_name][key][flip_value][
+                                        width_scale]:
                                         imgs[mode][flip_value][width_scale][height_scale] = {}
                                         scale_image = flip_image
-                                        if width_scale != 1 or height_scale != 1 or screen_scale[0] != 1 or screen_scale[1] != 1:
-                                            scale_image = smoothscale(scale_image, ((scale_image.get_width() * screen_scale[0]) * width_scale,
-                                                                                    (scale_image.get_height() * screen_scale[1]) * height_scale))
-                                        for angle in part_sprite_adjust[part_type][part_name][key][flip_value][width_scale][height_scale]:
+                                        if width_scale != 1 or height_scale != 1 or screen_scale[0] != 1 or \
+                                                screen_scale[1] != 1:
+                                            scale_image = smoothscale(scale_image, (
+                                            (scale_image.get_width() * screen_scale[0]) * width_scale,
+                                            (scale_image.get_height() * screen_scale[1]) * height_scale))
+                                        for angle in \
+                                        part_sprite_adjust[part_type][part_name][key][flip_value][width_scale][
+                                            height_scale]:
                                             imgs[mode][flip_value][width_scale][height_scale][angle] = scale_image
                                             if angle:
-                                                imgs[mode][flip_value][width_scale][height_scale][angle] = sprite_rotate(scale_image, angle)
+                                                imgs[mode][flip_value][width_scale][height_scale][
+                                                    angle] = sprite_rotate(scale_image, angle)
     recursive_merge(save_pool, imgs)
 
 
@@ -240,7 +247,7 @@ def csv_read(main_dir, file, subfolder=(), output_type="dict", header_key=False,
                     return_output.append(row)
             edit_file.close()
     except FileNotFoundError as b:
-        print(b)
+        print("file not found", b)
     return return_output
 
 
@@ -383,7 +390,9 @@ def stat_convert(row, n, i, percent_column=(), mod_column=(), list_column=(), tu
                     elif "{" in new_i2[1]:  # dict value with key=value instead of key:value
                         new_i2[1] = new_i2[1].replace("{", "").replace("}", "")
                         item_list = tuple([item_conversion(item2) for item2 in new_i2[1].split(";")])
-                        result_i[new_i2[0]] = {i3.split("=")[0]: item_conversion(i3.split("=")[1]) if "=" in i3 else True for i3 in item_list}
+                        result_i[new_i2[0]] = {
+                            i3.split("=")[0]: item_conversion(i3.split("=")[1]) if "=" in i3 else True for i3 in
+                            item_list}
                     else:
                         result_i[new_i2[0]] = item_conversion(result_i[new_i2[0]])
                 else:

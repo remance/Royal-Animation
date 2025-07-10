@@ -23,5 +23,6 @@ def load_battle_sprite_animation(self, character_list):
                         animation_pool = animation_pool[part_name][key]
                         default_pool = self.default_body_sprite_pool
                         sprite_chapter = self.char_sprite_chapter[char_id]
-                    prepare_animation_sprite(self.screen_scale, animation_pool, sprite_chapter, part_type, part_name, key,
+                    prepare_animation_sprite(self.screen_scale, animation_pool, sprite_chapter, part_type, part_name,
+                                             key,
                                              default_pool, self.part_sprite_adjust[char_id])

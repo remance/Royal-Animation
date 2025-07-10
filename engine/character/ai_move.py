@@ -1,7 +1,5 @@
 from random import choice, uniform
 
-from pygame import Vector2
-
 follow_distance = 100
 stay_formation_distance = 1
 

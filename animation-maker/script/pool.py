@@ -75,7 +75,8 @@ def anim_to_pool(animation_name, pool, char, activate_list, new=False, replace=N
 
 def anim_save_pool(pool, chapter, race_name, anim_column_header):
     """Save animation pool data"""
-    with open(os.path.join(main_dir, "data", "animation", str(chapter), filename_convert_readable(race_name, revert=True) + ".csv"),
+    with open(os.path.join(main_dir, "data", "animation", str(chapter),
+                           filename_convert_readable(race_name, revert=True) + ".csv"),
               mode="w",
               encoding='utf-8', newline="") as edit_file:
         filewriter = csv.writer(edit_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -86,7 +87,6 @@ def anim_save_pool(pool, chapter, race_name, anim_column_header):
                 subitem = [tiny_item for tiny_item in list(frame.values())]
                 for item_index, min_item in enumerate(subitem):
                     if type(min_item) is list:
-                        print(min_item)
                         min_item = [this_item if type(this_item) is not float else round(this_item, 1) for this_item in
                                     min_item]
                         if len(min_item) > 8:  # convert part pos to int

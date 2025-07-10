@@ -1,4 +1,3 @@
-import copy
 import datetime
 import types
 from functools import lru_cache
@@ -8,9 +7,8 @@ import pyperclip
 from pygame import Surface, SRCALPHA, Rect, Color, draw, mouse
 from pygame.font import Font
 from pygame.sprite import Sprite
-from pygame.transform import smoothscale
 
-from engine.utils.common import keyboard_mouse_press_check, stat_allocation_check, skill_allocation_check
+from engine.utils.common import keyboard_mouse_press_check
 from engine.utils.data_loading import load_image
 from engine.utils.text_making import text_render_with_bg, make_long_text, minimise_number_text
 

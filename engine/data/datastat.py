@@ -1,7 +1,7 @@
 import csv
 import os
 
-from engine.utils.data_loading import stat_convert, load_images, filename_convert_readable as fcv
+from engine.utils.data_loading import stat_convert, filename_convert_readable as fcv
 
 
 class GameData:
@@ -38,7 +38,7 @@ class CharacterData(GameData):
             rd = tuple(csv.reader(edit_file, quoting=csv.QUOTE_ALL))
             header = rd[0]
             for row_index, row in enumerate(rd[1:]):
-                dict_column = ("Property", )
+                dict_column = ("Property",)
                 dict_column = [index for index, item in enumerate(header) if item in dict_column]
                 for n, i in enumerate(row):
                     row = stat_convert(row, n, i, dict_column=dict_column)

@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 from engine.data.datastat import GameData
-from engine.utils.data_loading import stat_convert, load_images, csv_read, filename_convert_readable as fcv
+from engine.utils.data_loading import stat_convert, load_images, filename_convert_readable as fcv
 
 
 class BattleMapData(GameData):
@@ -73,8 +73,10 @@ class BattleMapData(GameData):
                         original_event_data, event_data = self.load_map_event_data(chapter_file_name, map_file_name,
                                                                                    stage_file_name.lower())
                         self.preset_map_data[chapter_file_name][map_file_name][stage_file_name] = \
-                            {"data": self.load_map_object_data(chapter_file_name, map_file_name, stage_file_name.lower()),
-                             "character": self.load_map_unit_data(chapter_file_name, map_file_name, stage_file_name.lower()),
+                            {"data": self.load_map_object_data(chapter_file_name, map_file_name,
+                                                               stage_file_name.lower()),
+                             "character": self.load_map_unit_data(chapter_file_name, map_file_name,
+                                                                  stage_file_name.lower()),
                              "event_data": original_event_data,
                              "event": event_data}
 
@@ -124,7 +126,7 @@ class BattleMapData(GameData):
                                    "object_pos.csv"), encoding="utf-8", mode="r") as unit_file:
                 rd = list(csv.reader(unit_file, quoting=csv.QUOTE_ALL))
                 header = rd[0]
-                dict_column = ("Property", )
+                dict_column = ("Property",)
                 dict_column = [index for index, item in enumerate(header) if item in dict_column]
                 for data_index, data in enumerate(rd[1:]):  # skip header
                     for n, i in enumerate(data):
@@ -134,7 +136,7 @@ class BattleMapData(GameData):
             unit_file.close()
             return char_data
         except FileNotFoundError as b:
-            print(b)
+            print("file not found", b)
             return {}
 
     def load_map_unit_data(self, campaign_id, map_id, stage_id, scene_id=""):
@@ -146,7 +148,7 @@ class BattleMapData(GameData):
                 int_column = ("Team",)  # value int only
                 list_column = ("POS",)  # value in list only
                 float_column = ("Start Health", "Start Stamina")  # value in float
-                dict_column = ("Stage Property", )
+                dict_column = ("Stage Property",)
                 int_column = [index for index, item in enumerate(header) if item in int_column]
                 list_column = [index for index, item in enumerate(header) if item in list_column]
                 float_column = [index for index, item in enumerate(header) if item in float_column]
@@ -161,5 +163,5 @@ class BattleMapData(GameData):
             unit_file.close()
             return char_data
         except FileNotFoundError as b:
-            print(b)
+            print("file not found", b)
             return {}

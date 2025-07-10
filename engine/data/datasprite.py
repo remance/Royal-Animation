@@ -1,6 +1,6 @@
 import csv
 from os import sep, listdir
-from os.path import join, split, normpath, exists, isfile
+from os.path import join, split, normpath, exists
 from pathlib import Path
 
 from engine.data.datastat import GameData
@@ -43,12 +43,13 @@ class AnimationData(GameData):
             for file in listdir(part_folder):
                 file = file.split(".")[0]
                 file_data_name = fcv(file)
-                if file_data_name not in self.character_animation_data and (not character_list or file_data_name in character_list):
+                if file_data_name not in self.character_animation_data and (
+                        not character_list or file_data_name in character_list):
                     # get only latest and nearest existing chapter animation for each character
                     # update to new chapter
                     self.char_sprite_chapter[file_data_name] = int(sub_folder)
                     with ((open(join(self.data_dir, "animation", str(chapter), file + ".csv"), encoding="utf-8",
-                               mode="r")) as edit_file):
+                                mode="r")) as edit_file):
                         rd = tuple(csv.reader(edit_file, quoting=csv.QUOTE_ALL))
                         part_name_header = rd[0]
                         list_column = ["head", "neck", "body", "r_arm_up", "r_arm_low", "r_hand", "l_arm_up",
@@ -70,7 +71,7 @@ class AnimationData(GameData):
                         for row_index, row in enumerate(rd):
                             if row_index > 0 and ("Default" in row[0] or
                                                   (any(ext not in row[0] for ext in exclude_list) and (
-                                    not only_list or any(ext in row[0] for ext in only_list)))):
+                                                          not only_list or any(ext in row[0] for ext in only_list)))):
                                 key = row[0].split("/")[0]
                                 for n, i in enumerate(row):
                                     row = stat_convert(row, n, i, list_column=list_column)
@@ -81,7 +82,7 @@ class AnimationData(GameData):
                                         {part_name_header[item_index]: item for item_index, item in enumerate(row)})
                                 else:
                                     animation_pool[key] = {"Right": [{part_name_header[item_index]: item for
-                                                                       item_index, item in enumerate(row)}],
+                                                                      item_index, item in enumerate(row)}],
                                                            "Left": []}
                                 flip_row = row.copy()  # flip sprite data for left direction
                                 for part_index, part_data in enumerate(flip_row):
@@ -252,7 +253,8 @@ class AnimationData(GameData):
                                         sprite_animation_list = [value for key, value in images.items() if
                                                                  final_name == key]
 
-                                    self.default_effect_animation_pool[folder_data_name][final_name] = sprite_animation_list
+                                    self.default_effect_animation_pool[folder_data_name][
+                                        final_name] = sprite_animation_list
 
             self.effect_animation_pool |= {key: value.copy() for key, value in
                                            self.default_effect_animation_pool.items()}

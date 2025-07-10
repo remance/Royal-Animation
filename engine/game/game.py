@@ -4,7 +4,6 @@ import os.path
 import sys
 import types
 from math import sin, cos, radians
-from random import uniform, randint
 
 import pygame
 from pygame import sprite, Vector2, JOYDEVICEADDED, JOYDEVICEREMOVED, display, mouse, Surface

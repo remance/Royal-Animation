@@ -93,4 +93,3 @@ def sprite_rotate(surface, angle):
     surface = surface.tobytes()
     surface = image.frombytes(surface, size, "RGBA")  # convert image back to a pygame surface
     return surface
-

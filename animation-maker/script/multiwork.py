@@ -1,7 +1,6 @@
 import csv
 import os
 import sys
-
 from os.path import join, split, normpath, abspath
 from pathlib import Path
 
@@ -11,7 +10,6 @@ current_dir = split(abspath(__file__))[0]
 main_dir = current_dir[:current_dir.rfind("\\") + 1].split("\\")
 main_dir = ''.join(stuff + "\\" for stuff in main_dir[:-2])  # one folder further back
 sys.path.insert(1, main_dir)
-
 
 data_dir = join(main_dir, "data")
 animation_dir = join(data_dir, "animation", "1")
@@ -25,7 +23,6 @@ for x in Path(join(animation_dir)).iterdir():  # grab char with sprite
     if ".csv" in normpath(x).split(os.sep)[-1]:
         file_list.append(normpath(x).split(os.sep)[-1])
 
-
 for file_name in file_list:
     # file_name = "rabbit.csv"
     with open(join(main_dir, "data", "animation", "1", file_name), encoding="utf-8",
@@ -38,7 +35,8 @@ for file_name in file_list:
             if row_index > 0:
                 key = row[0]
                 for col_index, column in enumerate(row):
-                    if "effect" in part_name_header[col_index] and "sound" not in part_name_header[col_index] and column:
+                    if "effect" in part_name_header[col_index] and "sound" not in part_name_header[
+                        col_index] and column:
                         new_column = column.split(",")
                         # new_column[2] = str(round(float(new_column[2]) * 2, 1))
                         # new_column[3] = str(round(float(new_column[3]) * 2, 1))

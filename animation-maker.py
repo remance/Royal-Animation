@@ -5,13 +5,13 @@ import re
 import sys
 import time
 from math import atan2, degrees, radians
-from pathlib import Path
 from os import sep
 from os.path import join, split, normpath, abspath
+from pathlib import Path
 
 import pygame
-from pygame.transform import smoothscale, rotate, flip as pyflip
 from PIL import Image, ImageFilter, ImageEnhance, ImageOps
+from pygame.transform import smoothscale, rotate, flip as pyflip
 
 from engine.data.datalocalisation import Localisation
 from engine.data.datasound import SoundData
@@ -20,8 +20,8 @@ from engine.uibattle.uibattle import UIScroll
 from engine.uimenu.uimenu import MenuCursor, NameList, MenuButton, TextPopup, InputUI, InputBox, ListBox
 from engine.utils.data_loading import csv_read, load_image, load_images, load_base_button, recursive_image_load, \
     filename_convert_readable as fcv
+from engine.utils.rotation import rotation_xy
 from engine.utils.sprite_altering import sprite_rotate
-from engine.utils.rotation import rotation_xy, find_angle_between_12
 
 main_dir = split(abspath(__file__))[0]
 main_data_dir = join(main_dir, "data")
@@ -93,7 +93,8 @@ anim_column_header += ["effect_1", "effect_2", "effect_3", "effect_4", "effect_5
                        "effect_8",
                        "frame_property", "animation_property", "sound_effect"]  # For csv saving and accessing
 frame_property_list = ["hold", "stoppable", "play_time_mod_", "effect_blur_", "effect_fade_",
-                       "effect_contrast_", "effect_brightness_", "effect_grey", "effect_colour_"]  # starting property list
+                       "effect_contrast_", "effect_brightness_", "effect_grey",
+                       "effect_colour_"]  # starting property list
 
 anim_property_list = ["interuptrevert", "norestart"] + frame_property_list
 
@@ -160,7 +161,7 @@ def reload_animation(animation, char, specific_frame=None):
         helper.stat2 = char.animation_part_list[current_frame]
         if char.part_selected:  # not empty
             for part in char.part_selected:
-                part = list(char.mask_part_list.keys())[part]
+                part = tuple(char.mask_part_list.keys())[part]
                 helper.select_part((0, 0), True, False, specific_part=part)
         else:
             helper.select_part(None, shift_press, False)
@@ -186,7 +187,7 @@ def change_animation_race(new_race):
     for p in range(1, max_person + 1):
         model.sprite_mode |= {p: "Normal"}
     sprite_mode_selector.change_name("Normal")
-    change_animation(list(current_pool[animation_race].keys())[0])
+    change_animation(tuple(current_pool[animation_race].keys())[0])
 
 
 def change_animation_chapter(new_chapter, change_race=True):
@@ -215,11 +216,11 @@ def change_animation_chapter(new_chapter, change_race=True):
                     body_sprite_pool[char][folder1[-1]] = {}
                     sub_part_folder = Path(
                         join(animation_dir, "sprite", "character", race_file_name, folder1[-1],
-                                     str(animation_chapter)))
+                             str(animation_chapter)))
                     recursive_image_load(body_sprite_pool[char][folder1[-1]], screen_scale, sub_part_folder)
 
             except FileNotFoundError as b:
-                print(b)
+                print("file not found", b)
 
     effect_sprite_pool = {}
     part_folder = Path(join(animation_dir, "sprite", "effect"))
@@ -337,10 +338,9 @@ effect_sprite_pool = {}
 change_animation_chapter(animation_chapter, change_race=False)
 
 try:
-    animation_name = list(animation_pool_data[animation_race].keys())[0]
+    animation_name = tuple(animation_pool_data[animation_race].keys())[0]
 except:
     animation_name = None
-
 
 with open(join(data_dir, "character", "character.csv"),
           encoding="utf-8", mode="r") as edit_file:
@@ -458,22 +458,15 @@ class Button(pygame.sprite.Sprite):
                 ui.add(text_popup)
 
 
-class SwitchButton(pygame.sprite.Sprite):
+class SwitchButton(Button):
     """Button that switch text/option"""
 
     def __init__(self, text_list, image, pos, description=None, font_size=16):
-        self._layer = 5
-        pygame.sprite.Sprite.__init__(self, self.containers)
-        self.font = pygame.font.Font(Game.ui_font["text_paragraph"], int(font_size * screen_scale[1]))
-        self.pos = pos
-        self.description = description
         self.current_option = 0
-        self.base_image = image
-        self.image = self.base_image.copy()
         self.text_list = text_list
         self.text = self.text_list[self.current_option]
+        Button.__init__(self, self.text, image, pos, description, font_size)
         self.change_text(self.text)
-        self.rect = self.image.get_rect(center=self.pos)
 
     def change_option(self, option):
         if self.current_option != option:
@@ -486,12 +479,6 @@ class SwitchButton(pygame.sprite.Sprite):
         text_surface = self.font.render(str(text), True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(int(self.image.get_width() / 2), int(self.image.get_height() / 2)))
         self.image.blit(text_surface, text_rect)
-
-    def update(self, *args):
-        if "ON" in help_button.text:  # enable help description
-            if self.rect.collidepoint(mouse_pos) and self.description is not None and not mouse_left_up:
-                text_popup.popup(cursor.rect, self.description)
-                ui.add(text_popup)
 
 
 class BodyHelper(pygame.sprite.Sprite):
@@ -607,14 +594,14 @@ class BodyHelper(pygame.sprite.Sprite):
         if player_change:
             self.select_part(None, False, False)  # reset first
             for part in model.part_selected:  # blit selected part that is in helper
-                if list(model.mask_part_list.keys())[part] in self.rect_part_list:
-                    self.select_part(mouse_pos, True, False, list(model.mask_part_list.keys())[part])
+                if tuple(model.mask_part_list.keys())[part] in self.rect_part_list:
+                    self.select_part(mouse_pos, True, False, tuple(model.mask_part_list.keys())[part])
             self.blit_part()
 
     def blit_part(self):
         self.image = self.base_image.copy()
         for index, image in enumerate(self.part_images):
-            this_key = list(self.part_pos.keys())[index]
+            this_key = tuple(self.part_pos.keys())[index]
             pos = self.part_pos[this_key]
             new_image = image
             if this_key in self.part_selected:  # highlight selected part
@@ -1003,9 +990,14 @@ class Model:
                         new_part_name = part_name
                     if "r_" in part_name[0:2] or "l_" in part_name[0:2]:
                         new_part_name = part_name[2:]  # remove part side
-                    self.sprite_image[stuff] = body_sprite_pool[bodypart_list[stuff][0]][new_part_name][
-                                character_mode_list[animation_race][self.sprite_mode[int(p)]][mode_part_check]][
-                                bodypart_list[stuff][1]].copy()
+                    try:
+                        self.sprite_image[stuff] = body_sprite_pool[bodypart_list[stuff][0]][new_part_name][
+                            character_mode_list[animation_race][self.sprite_mode[int(p)]][mode_part_check]][
+                            bodypart_list[stuff][1]].copy()
+                    except KeyError:  # try normal mode if part not exist for specified mode
+                        self.sprite_image[stuff] = body_sprite_pool[bodypart_list[stuff][0]][new_part_name][
+                            character_mode_list[animation_race]["Normal"][mode_part_check]][
+                            bodypart_list[stuff][1]].copy()
 
     def click_part(self, mouse_pos, shift_press, ctrl_press, part=None):
         if part is None:
@@ -1032,13 +1024,13 @@ class Model:
                 self.part_selected = []
         else:
             if shift_press:
-                self.part_selected.append(list(self.mask_part_list.keys()).index(part))
+                self.part_selected.append(tuple(self.mask_part_list.keys()).index(part))
                 self.part_selected = list(set(self.part_selected))
             elif ctrl_press:
-                if list(self.mask_part_list.keys()).index(part) in self.part_selected:
+                if tuple(self.mask_part_list.keys()).index(part) in self.part_selected:
                     self.part_selected.remove(list(self.mask_part_list.keys()).index(part))
             else:
-                self.part_selected = [list(self.mask_part_list.keys()).index(part)]
+                self.part_selected = [tuple(self.mask_part_list.keys()).index(part)]
 
     def edit_part(self, edit_mouse_pos, edit_type, specific_frame=None, check_delay=True):
         global edit_delay, showroom_camera_pos
@@ -1110,7 +1102,8 @@ class Model:
                                                       self.part_name_history[self.current_history][frame_num].items()}
                     self.animation_part_list[frame_num] = {key: (value[:].copy() if value is not None else value) for
                                                            key, value in
-                                                           self.animation_history[self.current_history][frame_num].items()}
+                                                           self.animation_history[self.current_history][
+                                                               frame_num].items()}
                     self.bodypart_list[frame_num] = {key: value for key, value in
                                                      self.body_part_history[self.current_history][frame_num].items()}
 
@@ -1122,8 +1115,10 @@ class Model:
                 else:
                     if self.frame_list[current_frame]["sound_effect"]:
                         self.frame_list[current_frame]["sound_effect"] = [sound_name,
-                                                                          self.frame_list[current_frame]["sound_effect"][1],
-                                                                          self.frame_list[current_frame]["sound_effect"][2]]
+                                                                          self.frame_list[current_frame][
+                                                                              "sound_effect"][1],
+                                                                          self.frame_list[current_frame][
+                                                                              "sound_effect"][2]]
                     else:
                         self.frame_list[current_frame]["sound_effect"] = [sound_name, 1000, 0]
                         sound_distance_selector.change_name("1000")
@@ -1142,7 +1137,8 @@ class Model:
                     self.part_name_list[edit_frame][part_index][1] = part_change
                     self.generate_body(self.bodypart_list[edit_frame])
                     if not self.animation_part_list[edit_frame][part_index]:
-                        self.animation_part_list[edit_frame][part_index] = [0, pygame.Vector2(0, 0), [0, 0], 0, 0, 0, 1, 1, 0]
+                        self.animation_part_list[edit_frame][part_index] = [0, pygame.Vector2(0, 0), [0, 0], 0, 0, 0, 1,
+                                                                            1, 0]
                         self.animation_part_list[edit_frame][part_index][1] = "center"
                     self.animation_part_list[edit_frame][part_index][0] = self.sprite_image[part_index]
 
@@ -1216,41 +1212,30 @@ class Model:
                                                  self.animation_part_list[edit_frame][part_index][2][1]]
                                 except TypeError:  # None position
                                     new_point = [0, 0]
-                                if "w" in edit_type:
-                                    if shift_press:
-                                        new_point[1] = new_point[1] - 10
-                                    else:
-                                        new_point[1] = new_point[1] - 1
-                                elif "s" in edit_type:
-                                    if shift_press:
-                                        new_point[1] = new_point[1] + 10
-                                    else:
-                                        new_point[1] = new_point[1] + 1
-                                elif "a" in edit_type:
-                                    if shift_press:
-                                        new_point[0] = new_point[0] - 10
-                                    else:
-                                        new_point[0] = new_point[0] - 1
-                                elif "d" in edit_type:
-                                    if shift_press:
-                                        new_point[0] = new_point[0] + 10
-                                    else:
-                                        new_point[0] = new_point[0] + 1
+                                by_how_much = 1
+                                if shift_press:
+                                    by_how_much = 10
+                                if "up" in edit_type:
+                                    new_point[1] -= by_how_much
+                                elif "down" in edit_type:
+                                    new_point[1] += by_how_much
+                                elif "left" in edit_type:
+                                    new_point[0] -= by_how_much
+                                elif "right" in edit_type:
+                                    new_point[0] += by_how_much
                                 self.animation_part_list[edit_frame][part_index][2] = [int(new_point[0]),
                                                                                        int(new_point[1])]
 
                             elif "tilt_" in edit_type:  # keyboard rotate
                                 new_angle = self.animation_part_list[edit_frame][part_index][3]
-                                if "q" in edit_type:
-                                    if shift_press:
-                                        new_angle = new_angle - 10
-                                    else:
-                                        new_angle = new_angle - 1
-                                elif "e" in edit_type:
-                                    if shift_press:
-                                        new_angle = new_angle + 10
-                                    else:
-                                        new_angle = new_angle + 1
+                                by_how_much = 1
+                                if shift_press:
+                                    by_how_much = 10
+                                if "1" in edit_type:
+                                    new_angle -= by_how_much
+                                elif "2" in edit_type:
+                                    new_angle += by_how_much
+
                                 if new_angle < 0:
                                     new_angle += 360
                                 elif new_angle > 360:
@@ -1258,23 +1243,17 @@ class Model:
                                 self.animation_part_list[edit_frame][part_index][3] = new_angle
 
                             elif "full_rotate_" in edit_type:  # keyboard rotate
+                                by_how_much = 1
+                                if shift_press:
+                                    by_how_much = 10
                                 if "_1" in edit_type:
-                                    if shift_press:
-                                        move_angle = -10
-                                    else:
-                                        move_angle = -1
-                                elif "_2" in edit_type:
-                                    if shift_press:
-                                        move_angle = 10
-                                    else:
-                                        move_angle = 1
-
+                                    by_how_much = -by_how_much
                                 new_point = rotation_xy(center, self.animation_part_list[edit_frame][part_index][2],
-                                                        radians(-move_angle))
-                                self.animation_part_list[edit_frame][part_index][2] = [round(new_point[0],0),
-                                                                                       round(new_point[1],0)]
+                                                        radians(-by_how_much))
+                                self.animation_part_list[edit_frame][part_index][2] = [round(new_point[0], 0),
+                                                                                       round(new_point[1], 0)]
 
-                                new_angle = self.animation_part_list[edit_frame][part_index][3] + move_angle
+                                new_angle = self.animation_part_list[edit_frame][part_index][3] + by_how_much
 
                                 if new_angle < 0:
                                     new_angle += 360
@@ -1367,14 +1346,17 @@ class Model:
                                     self.animation_part_list[edit_frame][part_index][6] = zoom_value
                                     self.animation_part_list[edit_frame][part_index][7] = zoom_value
                                     old_pos = self.animation_part_list[edit_frame][part_index][2]
-                                    self.animation_part_list[edit_frame][part_index][2] = (old_pos[0] + (old_pos[0] * zoom_diff_percent),
-                                                                                           old_pos[1] + (old_pos[1] * zoom_diff_percent))
+                                    self.animation_part_list[edit_frame][part_index][2] = (
+                                        old_pos[0] + (old_pos[0] * zoom_diff_percent),
+                                        old_pos[1] + (old_pos[1] * zoom_diff_percent))
                             elif "dplus_zoom" in edit_type:
                                 zoom_value = int(edit_type.split(":")[-1])
                                 if zoom_value:
-                                    new_zoom = round(self.animation_part_list[edit_frame][part_index][6] + zoom_value, 1)
+                                    new_zoom = round(self.animation_part_list[edit_frame][part_index][6] + zoom_value,
+                                                     1)
                                     if new_zoom > 0:
-                                        zoom_diff_percent = new_zoom / self.animation_part_list[edit_frame][part_index][6]
+                                        zoom_diff_percent = new_zoom / self.animation_part_list[edit_frame][part_index][
+                                            6]
                                         if zoom_diff_percent < 1:
                                             zoom_diff_percent = -zoom_diff_percent
                                         else:
@@ -1383,8 +1365,8 @@ class Model:
                                         self.animation_part_list[edit_frame][part_index][7] = new_zoom
                                         old_pos = self.animation_part_list[edit_frame][part_index][2]
                                         self.animation_part_list[edit_frame][part_index][2] = (
-                                        old_pos[0] + (old_pos[0] * zoom_diff_percent),
-                                        old_pos[1] + (old_pos[1] * zoom_diff_percent))
+                                            old_pos[0] + (old_pos[0] * zoom_diff_percent),
+                                            old_pos[1] + (old_pos[1] * zoom_diff_percent))
 
                             elif "DMG" in edit_type:
                                 if self.animation_part_list[edit_frame][part_index][8]:
@@ -1473,7 +1455,8 @@ class Model:
         if angle:
             part_rotated = rotate(part_rotated, angle)  # rotate part sprite
 
-        new_target = ((target[0] + showroom_base_point[0]) / self.size, (target[1] + showroom_base_point[1]) / self.size)
+        new_target = (
+            (target[0] + showroom_base_point[0]) / self.size, (target[1] + showroom_base_point[1]) / self.size)
         rect = part_rotated.get_rect(center=new_target)
         if save_mask:
             mask = pygame.mask.from_surface(part_rotated)
@@ -1543,7 +1526,7 @@ class Animation:
                     if sound_effect:
                         sound_effect.set_volume(1)
                         sound_effect.play(pygame.mixer.Sound(
-                        random.choice(sound_effect_pool[model.frame_list[self.show_frame]["sound_effect"][0]])))
+                            random.choice(sound_effect_pool[model.frame_list[self.show_frame]["sound_effect"][0]])))
                 if "sound_effect" in model.frame_list[self.show_frame] and model.frame_list[self.show_frame][
                     "sound_effect"]:
                     sound_selector.change_name(str(model.frame_list[self.show_frame]["sound_effect"][0]))
@@ -1641,7 +1624,8 @@ save_button = Button("Save", image, (image.get_width() * 3.5, image.get_height()
                      description=("Save all animation", "Save the current state of all animation only for this char."))
 size_button = Button("Zoom: ", image, (image.get_width() * 4.5, image.get_height() / 2),
                      description=(
-                         "Change animation preview room zoom", "This does not change the size of the animation editor UI."))
+                         "Change animation preview room zoom",
+                         "This does not change the size of the animation editor UI."))
 
 rename_button = Button("Rename", image, (screen_size[0] - (image.get_width() * 3.5), image.get_height() / 2),
                        description=("Rename animation",
@@ -1689,7 +1673,7 @@ reset_camera_button = Button("Reset C", image,
 add_frame_button = Button("Add F", image, (play_animation_button.pos[0] + play_animation_button.image.get_width() * 4,
                                            filmstrip_list[0].rect.midbottom[1] + (image.get_height() / 2)),
                           description=(
-                          "Add empty frame and move the other after frames", "Will remove the last frame."))
+                              "Add empty frame and move the other after frames", "Will remove the last frame."))
 
 remove_frame_button = Button("Del F", image,
                              (play_animation_button.pos[0] + play_animation_button.image.get_width() * 5,
@@ -1734,7 +1718,9 @@ help_button = SwitchButton(("Help:ON", "Help:OFF"), image,
                                         "DEL = Clear part",
                                         "Page Up/Down or Numpad +/- = Change layer",
                                         "Some keyboard input like arrow key can be pressed along with Shift key to "
-                                        "change value by 10"))
+                                        "change value by 10",
+                                        "The property list on the left is for whole animation, "
+                                        "the right is for specific frame"))
 
 undo_button = Button("Undo", image, (play_animation_button.pos[0] - play_animation_button.image.get_width() * 6,
                                      filmstrip_list[0].rect.midbottom[1] + (image.get_height() / 2)),
@@ -1751,28 +1737,30 @@ flip_hori_button = Button("Flip H", image, (reset_button.pos[0] + reset_button.i
                                             p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
                           description=("Horizontal Flip part", "Flip the selected part horizontally."))
 flip_mirror_button = Button("Flip M", image, (reset_button.pos[0] + reset_button.image.get_width() * 2,
-                                            p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
-                          description=("Mirror Flip part", "Flip the selected part horizontally, angle, and position."))
+                                              p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
+                            description=(
+                                "Mirror Flip part", "Flip the selected part horizontally, angle, and position."))
 
 zoom_d_button = Button("D Zoom", image, (reset_button.pos[0] + (reset_button.image.get_width() * 3),
-                                            p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
-                          description=("Change scale selected parts and adjust position based on current distance from base point.",
-                                       "The distance changed is based on different from the current scale."
-                                       "converted to int value."))
-zoom_dplus_button = Button("D Zoom+", image, (reset_button.pos[0] + (reset_button.image.get_width() * 4),
                                          p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
                        description=(
-                       "Add to scale value of selected parts and adjust position based on current distance from base point.",
-                       "The distance changed is based on different from the current scale.",
-                       "The input value get added to current selected parts' scale.",
-                       "Not work well if previous scale value has decimal."))
+                           "Change scale selected parts and adjust position based on current distance from base point.",
+                           "The distance changed is based on different from the current scale."
+                           "converted to int value."))
+zoom_dplus_button = Button("D Zoom+", image, (reset_button.pos[0] + (reset_button.image.get_width() * 4),
+                                              p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
+                           description=(
+                               "Add to scale value of selected parts and adjust position based on current distance from base point.",
+                               "The distance changed is based on different from the current scale.",
+                               "The input value get added to current selected parts' scale.",
+                               "Not work well if previous scale value has decimal."))
 # flip_vert_button = Button("Flip V", image, (reset_button.pos[0] + (reset_button.image.get_width() * 2),
 #                                             p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
 #                           description=("Vertical Flip part", "Flip the selected part vertically."))
 damage_button = Button("Do DMG", image, (reset_button.pos[0] + (reset_button.image.get_width() * 4),
                                          p_body_helper.rect.midtop[1] - (image.get_height() * 1.5)),
                        description=(
-                       "Part do damage", "Add indication that the selected parts deal damage in this frame."))
+                           "Part do damage", "Add indication that the selected parts deal damage in this frame."))
 part_copy_button = Button("Copy P", image, (screen_size[0] / 1.35,
                                             p_body_helper.rect.midtop[1] - (image.get_height() * 1.5)),
                           description=("Copy parts (ALT + C)", "Copy the selected part only from this frame."))
@@ -1797,15 +1785,16 @@ grid_button = SwitchButton(("Grid:ON", "Grid:OFF"), image,
                            description=("Show editor grid", "Display or hide animation editor grid."))
 
 showroom_colour_button = Button("Box RGB", image, (screen_size[0] / 1.35,
-                            p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
+                                                   p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
                                 description=("Change showroom background colour",))
 export_full_button = Button("To m PNG", image, (part_copy_button.rect.topright[0] + image.get_width() * 2.5,
-                                              p_body_helper.rect.midtop[1] - (image.get_height() * 2.5)),
-                            description=("Export animation to Full image png", "Export the current animation to png image files with size that cover all sprite parts."))
+                                                p_body_helper.rect.midtop[1] - (image.get_height() * 2.5)),
+                            description=("Export animation to Full image png",
+                                         "Export the current animation to png image files with size that cover all sprite parts."))
 export_button = Button("To PNG", image, (part_copy_button.rect.topright[0] + image.get_width() * 1.5,
                                          p_body_helper.rect.midtop[1] - (image.get_height() * 2.5)),
                        description=(
-                       "Export animation to PNG", "Export the current animation to several png image files."))
+                           "Export animation to PNG", "Export the current animation to several png image files."))
 
 race_part_button = Button("", image, (reset_button.image.get_width() / 1.8,
                                       p_body_helper.rect.midtop[1] - (image.get_height() / 2)),
@@ -1818,14 +1807,14 @@ p_selector = NameBox((250, image.get_height()), (reset_button.image.get_width() 
                                   "Parts from different person can still be selected in editor preview."))
 
 camera_pos_show_button = NameBox((250, image.get_height()), (reset_button.image.get_width() * 1.8,
-                                                 p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
-                                 description=("Camera POS", ))
+                                                             p_body_helper.rect.midtop[1] - (image.get_height() * 4.5)),
+                                 description=("Camera POS",))
 camera_pos_show_button.change_name(str(showroom_camera_pos))
 
 sprite_mode_selector = NameBox((250, image.get_height()), (reset_button.image.get_width() * 1.8,
                                                            p_body_helper.rect.midtop[1] - (image.get_height() * 3.5)),
                                description=(
-                               "Select preview sprite mode", "Only for preview and not saved in animation file."))
+                                   "Select preview sprite mode", "Only for preview and not saved in animation file."))
 
 sound_selector = NameBox((250, image.get_height()), (screen_size[0] - (reset_button.image.get_width() * 1.8),
                                                      p_body_helper.rect.midtop[1] - (image.get_height() * 5.5)),
@@ -2076,17 +2065,17 @@ while True:
                 camera_pos_show_button.change_name(str(showroom_camera_pos))
                 model.edit_part(mouse_pos, "")
             elif key_press[pygame.K_w]:
-                model.edit_part(mouse_pos, "move_w", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "move_up", specific_frame=current_frame)
             elif key_press[pygame.K_s]:
-                model.edit_part(mouse_pos, "move_s", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "move_down", specific_frame=current_frame)
             elif key_press[pygame.K_a]:
-                model.edit_part(mouse_pos, "move_a", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "move_left", specific_frame=current_frame)
             elif key_press[pygame.K_d]:
-                model.edit_part(mouse_pos, "move_d", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "move_right", specific_frame=current_frame)
             elif key_press[pygame.K_q]:
-                model.edit_part(mouse_pos, "tilt_q", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "tilt_1", specific_frame=current_frame)
             elif key_press[pygame.K_e]:
-                model.edit_part(mouse_pos, "tilt_e", specific_frame=current_frame)
+                model.edit_part(mouse_pos, "tilt_2", specific_frame=current_frame)
             elif key_press[pygame.K_r]:
                 model.edit_part(mouse_pos, "full_rotate_1", specific_frame=current_frame)
             elif key_press[pygame.K_t]:
@@ -2397,7 +2386,7 @@ while True:
                                 # keep only selected one
                                 all_copy_part[frame] = {item: all_copy_part[frame][item] for item in
                                                         all_copy_part[frame] if
-                                                        item in model.mask_part_list and list(
+                                                        item in model.mask_part_list and tuple(
                                                             model.mask_part_list.keys()).index(
                                                             item) in model.part_selected}
                                 all_copy_animation[frame] = {item: all_copy_animation[frame][item] for index, item in
@@ -2506,7 +2495,7 @@ while True:
 
                             # keep only selected one
                             copy_part_stat = {item: copy_part_stat[item] for item in copy_part_stat if
-                                              item in model.mask_part_list and list(model.mask_part_list.keys()).index(
+                                              item in model.mask_part_list and tuple(model.mask_part_list.keys()).index(
                                                   item) in model.part_selected}
                             copy_animation_stat = {item: copy_animation_stat[item] for index, item in
                                                    enumerate(copy_animation_stat.keys()) if
@@ -2531,9 +2520,9 @@ while True:
                         for helper in helper_list:
                             helper.select_part(None, False, False)  # reset first
                             for part in model.part_selected:
-                                if list(model.mask_part_list.keys())[part] in helper.rect_part_list:
+                                if tuple(model.mask_part_list.keys())[part] in helper.rect_part_list:
                                     helper.select_part(mouse_pos, True, False,
-                                                       specific_part=list(model.mask_part_list.keys())[part])
+                                                       specific_part=tuple(model.mask_part_list.keys())[part])
                             helper.blit_part()
 
                     elif all_button.rect.collidepoint(mouse_pos):
@@ -2544,7 +2533,7 @@ while True:
                                 model.click_part(mouse_pos, False, ctrl_press, part)
                         for part in model.part_selected:
                             for helper in helper_list:
-                                if list(model.mask_part_list.keys())[part] in helper.rect_part_list:
+                                if tuple(model.mask_part_list.keys())[part] in helper.rect_part_list:
                                     helper.select_part(mouse_pos, True, False,
                                                        specific_part=list(model.mask_part_list.keys())[part])
                                     helper.blit_part()
@@ -2645,7 +2634,8 @@ while True:
                                     part_list = list(
                                         body_sprite_pool[race_part_button.text]["special"][
                                             character_mode_list[animation_race][
-                                                model.sprite_mode[int(p_selector.text[1])]]["_".join(current_part.split("_")[:-1])]].keys())
+                                                model.sprite_mode[int(p_selector.text[1])]][
+                                                "_".join(current_part.split("_")[:-1])]].keys())
                                 elif "effect" in current_part:
                                     part_list = list(
                                         effect_sprite_pool[race_part_button.text].keys())
@@ -2664,7 +2654,7 @@ while True:
                                                 model.sprite_mode[int(p_selector.text[1])]][current_part]].keys())
 
                             except KeyError:  # part not exist
-                                print(current_part)
+                                print("not exist", current_part)
                                 part_list = []
                             popup_list_open(popup_list_box, popup_namegroup, ui, "part_select",
                                             part_selector.rect.topleft, part_list, "bottom", screen_scale)
@@ -2672,20 +2662,17 @@ while True:
                     elif p_selector.rect.collidepoint(mouse_pos):
                         popup_list_open(popup_list_box, popup_namegroup, ui, "person_select",
                                         p_selector.rect.topleft, p_list, "bottom", screen_scale)
-                    # elif sprite_ver_selector.rect.collidepoint(mouse_pos):
-                    #     part_list = []
-                    #     for item in range(1, 11):
-                    #         part_list.append(item)
-                    #     popup_list_open(popup_list_box, popup_namegroup, ui, p_body_helper.ui_type + "_ver_select",
-                    #                     sprite_ver_selector.rect.topleft, part_list, "bottom", screen_scale)
+
                     elif sprite_mode_selector.rect.collidepoint(mouse_pos):
                         part_list = character_mode_list[animation_race]
                         popup_list_open(popup_list_box, popup_namegroup, ui, p_body_helper.ui_type + "_mode_select",
                                         sprite_mode_selector.rect.topleft, part_list, "bottom", screen_scale)
+
                     elif sound_selector.rect.collidepoint(mouse_pos):
                         popup_list_open(popup_list_box, popup_namegroup, ui, "sound_select",
                                         (sound_selector.rect.topleft[0] - 400, sound_selector.rect.topleft[1]),
                                         ["None"] + list(sound_effect_pool.keys()), "bottom", screen_scale)
+
                     elif sound_distance_selector.rect.collidepoint(mouse_pos):
                         if sound_selector.text != "None":
                             text_input_popup = ("text_input", "change_sound_distance")
@@ -2694,7 +2681,7 @@ while True:
 
                     elif race_part_button.rect.collidepoint(mouse_pos):
                         if model.part_selected:
-                            current_part = list(model.mask_part_list.keys())[model.part_selected[-1]]
+                            current_part = tuple(model.mask_part_list.keys())[model.part_selected[-1]]
                             if "effect" in current_part:
                                 part_list = list(effect_sprite_pool)
                             else:
@@ -2825,7 +2812,7 @@ while True:
 
                         # keep only selected one
                         copy_part = {item: copy_part[item] for item in copy_part if
-                                     item in model.mask_part_list and list(model.mask_part_list.keys()).index(
+                                     item in model.mask_part_list and tuple(model.mask_part_list.keys()).index(
                                          item) in model.part_selected}
                         copy_animation = {item: copy_animation[item] for index, item in enumerate(copy_animation.keys())
                                           if
@@ -2857,9 +2844,9 @@ while True:
                             helper.select_part(None, shift_press, ctrl_press)
                             if model.part_selected:
                                 for part in model.part_selected:
-                                    if list(model.mask_part_list.keys())[part] in helper.rect_part_list:
+                                    if tuple(model.mask_part_list.keys())[part] in helper.rect_part_list:
                                         helper.select_part(mouse_pos, True, False,
-                                                           specific_part=list(model.mask_part_list.keys())[part])
+                                                           specific_part=tuple(model.mask_part_list.keys())[part])
                             helper.blit_part()
                     elif model.part_selected:
                         new_mouse_pos = pygame.Vector2(
@@ -2867,20 +2854,19 @@ while True:
                             (mouse_pos[1] - showroom.rect.topleft[1]) * showroom_scale_mul[1] * model.size)
                         if mouse_wheel_up or mouse_wheel_down:
                             model.edit_part(new_mouse_pos, "rotate", specific_frame=current_frame)
-                        elif mouse_right_up or mouse_right_down:
-                            if mouse_right_down:
-                                if not keypress_delay:
-                                    model.edit_part(new_mouse_pos, "place", specific_frame=current_frame)
-                                    keypress_delay = 0.1
-                            else:
+                        elif mouse_right_down:
+                            if not keypress_delay:
                                 model.edit_part(new_mouse_pos, "place", specific_frame=current_frame)
+                                keypress_delay = 0.1
+                        elif mouse_right_up:
+                            model.edit_part(new_mouse_pos, "place", specific_frame=current_frame)
 
             if model.part_selected:
                 part = model.part_selected[-1]
                 if model.animation_part_list[current_frame] is not None and \
-                        list(model.mask_part_list.keys())[part] in list(
+                        tuple(model.mask_part_list.keys())[part] in tuple(
                     model.animation_part_list[current_frame].keys()):
-                    name_text = model.part_name_list[current_frame][list(model.mask_part_list.keys())[part]]
+                    name_text = model.part_name_list[current_frame][tuple(model.mask_part_list.keys())[part]]
                     if name_text is None:
                         name_text = ["", ""]
                     race_part_button.change_text(name_text[0])
@@ -2888,7 +2874,7 @@ while True:
                 else:
                     race_part_button.change_text("")
                     part_selector.change_name("")
-            elif race_part_button.text != "":
+            elif race_part_button.text:
                 race_part_button.change_text("")
                 part_selector.change_name("")
     else:  # input box function
@@ -2958,7 +2944,7 @@ while True:
                                     part_image = pyflip(part_image, True, False)
                                 if part[6] != 1 or part[7] != 1:  # scale
                                     part_image = smoothscale(part_image, (part_image.get_width() * part[6],
-                                                              part_image.get_height() * part[7]))
+                                                                          part_image.get_height() * part[7]))
                                 if part[3]:
                                     part_image = sprite_rotate(part_image, part[3])
 
@@ -3013,7 +2999,7 @@ while True:
                     current_frame = 0
                     model.edit_part(mouse_pos, "new")
                 else:  # reset to the first animation
-                    change_animation(list(current_pool[animation_race].keys())[0])
+                    change_animation(tuple(current_pool[animation_race].keys())[0])
 
             elif text_input_popup[1] == "change_speed":
                 if re.search("[a-zA-Z]", input_box.text) is None:

@@ -5,7 +5,7 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/rsZd_9TWNCk)](https://youtu.be/rsZd_9TWNCk)
 [![](https://markdown-videos-api.jorgenkh.no/youtube/OLXNAn7SvRY)](https://youtu.be/OLXNAn7SvRY)
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>   
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/catfight.gif?raw=true" width="200" height="200"></a>
 
 # Who is included so far?
 
@@ -18,6 +18,7 @@
 </p>
 
 ## Trina Trina (Version: Abundance infused, young, doll)
+
 <p float="left">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina.png?raw=true" width="200" height="200">
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_trina_kid.png?raw=true" width="200" height="200">
@@ -26,15 +27,15 @@
 
 ## Malenia the Severed
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_malenia.png?raw=true" width="200" height="200"></a>   
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_malenia.png?raw=true" width="200" height="200"></a>
 
 ## Tiny Elden Beast
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_elden.png?raw=true" width="200" height="200"></a>   
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_elden.png?raw=true" width="200" height="200"></a>
 
 ## Lacrima the Longtail cat
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_lacrima.png?raw=true" width="200" height="200"></a>   
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_lacrima.png?raw=true" width="200" height="200"></a>
 
 ## Nightreign Revenant (Version: Doll)
 
@@ -42,7 +43,8 @@
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_revvy_doll.png?raw=true" width="200" height="200">
 </p>
 
-For any suggestions or bugs, feel free to report them in the [**Issues**](https://github.com/remance/Royal-Ordains/issues)
+For any suggestions or bugs, feel free to report them in the [**Issues
+**](https://github.com/remance/Royal-Ordains/issues)
 page.
 
 Maybe I will keep expanding on it enough into a full story game beyond Elden Ring fan animation in the future. Will see.
@@ -53,13 +55,11 @@ Discord channel: [![github](https://github.com/remance/preview/blob/main/discord
 
 Also include custom animation maker:
 
-<img src="https://github.com/remance/preview2/blob/main/maker.png?raw=true"></a>   
+<img src="https://github.com/remance/preview2/blob/main/maker.png?raw=true"></a>
 
 Can be used to make a comic as well I guess:
 
-<img src="https://github.com/remance/elden-ring-ATEW/blob/main/comic4.gif?raw=true"></a>   
-
-
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/comic4.gif?raw=true"></a>
 
 ### Sound (Obtained and edited):
 
@@ -67,7 +67,8 @@ Can be used to make a comic as well I guess:
 - Musket shot "aaronsiler_musket 3", "aaronsiler_musket 4" by aaronsiler (https://freesound.org/people/aaronsiler/)
 - Assorted weapon sound from Videvo (https://www.videvo.net/)
 - Cannon sound "canon" from man (https://freesound.org/people/man/)
-- Cannonball sound effect "Real Cannonballs Flying By (Restored Audio)" from John Camara (https://www.youtube.com/watch?v=maVSnWIXGE8)
+- Cannonball sound effect "Real Cannonballs Flying By (Restored Audio)" from John
+  Camara (https://www.youtube.com/watch?v=maVSnWIXGE8)
 - Bullet sound "Bullet passbys" from Audionautics (https://freesound.org/people/Audionautics/)
 - Heavy Weapon swing by "Swinging staff whoosh (strong) 08" Nightflame (https://freesound.org/people/Nightflame/)
 - Sword swing "Swosh Sword Swing" by qubodup (https://freesound.org/people/qubodup/)
@@ -85,13 +86,16 @@ Can be used to make a comic as well I guess:
 - Knockback "punch" by Ekokubza123 (https://freesound.org/people/Ekokubza123/)
 - Damaged "punch3" by Merrick079 (https://freesound.org/people/Merrick079/)
 - Mechanism sound "Mechanism" by Globofonia (https://freesound.org/people/Globofonia/)
-- Boom, stone hit, puff, old church bell, clapping, explosion, glass broken, book fall, deep thump, whistling, bell, sword sheath sound by Pixabay (https://pixabay.com/users/pixabay-1/) 
+- Boom, stone hit, puff, old church bell, clapping, explosion, glass broken, book fall, deep thump, whistling, bell,
+  sword sheath sound by Pixabay (https://pixabay.com/users/pixabay-1/)
 - Sword sheath and unsheath by SectionSound (https://pixabay.com/users/sectionsound-34536612/)
 - Bell sound "Bell Sound Ring" by Mike Koenig (https://soundbible.com/26-Bell-Sound-Ring.html#)
-- Wind sound "Wind Blow", Blood pull "Breeze Of Blood", Click sound "Reload", magic sound, Blink sound "Interface" by UNIVERSFIELD (https://pixabay.com/users/universfield-28281460/) 
+- Wind sound "Wind Blow", Blood pull "Breeze Of Blood", Click sound "Reload", magic sound, Blink sound "Interface" by
+  UNIVERSFIELD (https://pixabay.com/users/universfield-28281460/)
 - Earth spike sound "Punch a rock" and "Woosh Drum hit" by LordSonny (https://pixabay.com/users/lordsonny-38439655/)
 - Whistling sound "Joy Whistle" by Vampireayanos-narry (https://pixabay.com/users/vampireayanos-narry-33446737/)
-- Firework sound "Firework Explosion With Echo" and explosion sound "Slow Explosion" by Alex_Jauk (https://pixabay.com/users/alex_jauk-16800354/)
+- Firework sound "Firework Explosion With Echo" and explosion sound "Slow Explosion" by
+  Alex_Jauk (https://pixabay.com/users/alex_jauk-16800354/)
 - Various Ice sound by danielsoundsgood (https://linktr.ee/danielsoundsgood)
 - Grass walk sound by joentnt (https://pixabay.com/users/joentnt-47713256/)
 
@@ -100,7 +104,8 @@ Can be used to make a comic as well I guess:
 - Blue Dream and White Dream by BorealMix (https://www.mikseri.net/borealmix/)
 
 ### Ambient
-- Windy, forest ambient by Pixabay (https://pixabay.com/users/pixabay-1/) 
+
+- Windy, forest ambient by Pixabay (https://pixabay.com/users/pixabay-1/)
 - Heavy rain weather ambient sound by lebaston100 (https://freesound.org/people/lebaston100/)
 
 [1]: https://discord.gg/q7yxz4netf

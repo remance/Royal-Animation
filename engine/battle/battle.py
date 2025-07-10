@@ -17,9 +17,9 @@ from engine.effect.effect import Effect
 from engine.scene.scene import Scene
 from engine.stageobject.stageobject import StageObject, RotateStageObject
 from engine.uibattle.uibattle import FPSCount, BattleCursor, YesNo, CharacterSpeechBox, CharacterInteractPrompt, \
-    CourtBook, CityMap, ScreenFade, WheelUI
+    ScreenFade
 from engine.uimenu.uimenu import TextPopup
-from engine.utils.common import clean_object, clean_group_object
+from engine.utils.common import clean_group_object
 from engine.utils.data_loading import load_image, load_images, filename_convert_readable as fcv
 from engine.utils.text_making import number_to_minus_or_plus
 from engine.weather.weather import Weather
@@ -439,8 +439,10 @@ class Battle:
                 if value["Object"] not in loaded_item:  # load image
                     if "scene" in value["Type"]:  # load background scene
                         image = self.empty_scene_image
-                        if path.exists(path.join(self.data_dir, "map", "scene", fcv(value["Object"], revert=True) + ".png")):
-                            image = load_image(self.data_dir, self.screen_scale, fcv(value["Object"], revert=True) + ".png",
+                        if path.exists(
+                                path.join(self.data_dir, "map", "scene", fcv(value["Object"], revert=True) + ".png")):
+                            image = load_image(self.data_dir, self.screen_scale,
+                                               fcv(value["Object"], revert=True) + ".png",
                                                ("map", "scene"))
                         self.scenes[scene].images[value["Object"]] = image
                         loaded_item.append(value["Object"])
@@ -476,9 +478,9 @@ class Battle:
                         rotate_left = value["Property"]["rotate_left"]
 
                     RotateStageObject(scene_camera, value["Object"], value["POS"], game_id=value["ID"],
-                                     angle=angle, flip=flip, animation_speed=animation_speed, width_scale=width_scale,
-                                     height_scale=height_scale, rotate_speed=rotate_speed,
-                                     rotate_left=rotate_left)
+                                      angle=angle, flip=flip, animation_speed=animation_speed, width_scale=width_scale,
+                                      height_scale=height_scale, rotate_speed=rotate_speed,
+                                      rotate_left=rotate_left)
                 else:
                     StageObject(scene_camera, value["Object"], value["POS"], game_id=value["ID"], angle=angle,
                                 flip=flip, animation_speed=animation_speed, width_scale=width_scale,
@@ -504,8 +506,10 @@ class Battle:
                     images = self.scenes[value["Property"]["scene"]].images
 
                     if value["Object"] not in images:
-                        if path.exists(path.join(self.data_dir, "map", "scene", fcv(value["Object"], revert=True) + ".png")):
-                            image = load_image(self.data_dir, self.screen_scale, fcv(value["Object"], revert=True) + ".png",
+                        if path.exists(
+                                path.join(self.data_dir, "map", "scene", fcv(value["Object"], revert=True) + ".png")):
+                            image = load_image(self.data_dir, self.screen_scale,
+                                               fcv(value["Object"], revert=True) + ".png",
                                                ("map", "scene"))  # no scaling yet
                         images[value["Object"]] = image
 

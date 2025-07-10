@@ -1,6 +1,3 @@
-from random import uniform
-
-
 def enter_stage(self, animation_data_pool):
     """run once when scene start or character just get created"""
     from engine.character.character import BodyPart
@@ -17,7 +14,7 @@ def enter_stage(self, animation_data_pool):
 
     self.body_parts = {key: value for key, value in self.body_parts.items() if key in exist_part}
     self.body_parts = {
-        key: BodyPart(self, key) if not any(ext in key for ext in ("weapon", )) else BodyPart(self, key)
+        key: BodyPart(self, key) if not any(ext in key for ext in ("weapon",)) else BodyPart(self, key)
         for key, value in self.body_parts.items()}
 
     # adjust layer
