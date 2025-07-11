@@ -57,7 +57,9 @@ Also include custom animation maker:
 
 <img src="https://github.com/remance/preview2/blob/main/maker.png?raw=true"></a>
 
-Can be used to make a comic as well I guess:
+Can be used to make a simple comic as well I guess:
+
+[The Leyndell Times: CoMiqqy Corner](https://archiveofourown.org/works/63754666)
 
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/comic4.gif?raw=true"></a>
 
