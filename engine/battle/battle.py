@@ -708,7 +708,7 @@ class Battle:
                 frame = 0
 
             key_state = pygame.key.get_pressed()
-            esc_press = False
+            self.esc_press = False
             self.cursor.scroll_down = False
             self.cursor.scroll_up = False
 
@@ -805,7 +805,7 @@ class Battle:
                 elif event.type == pygame.KEYDOWN:
                     event_key_press = event.key
                     if event_key_press == K_ESCAPE:  # accept esc button always
-                        esc_press = True
+                        self.esc_press = True
                     for player in self.player_control_keyboard:
                         if event_key_press in self.player_key_bind_name[player]:  # check for key press
                             self.player_key_press[player][self.player_key_bind_name[player][event_key_press]] = True
@@ -851,11 +851,11 @@ class Battle:
 
             if self.player_key_press[self.main_player]["Menu/Cancel"]:
                 # open/close menu
-                esc_press = True
+                self.esc_press = True
 
             self.ui_updater.update()  # update ui before more specific update
 
-            return_state = self.state_process(esc_press)  # run code based on current state
+            return_state = self.state_process()  # run code based on current state
             if return_state is not None:
                 return return_state
 

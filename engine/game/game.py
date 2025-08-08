@@ -546,7 +546,7 @@ class Game:
             self.dt = self.clock.get_time() / 1000  # dt before game_speed
             self.cursor.scroll_down = False
             self.cursor.scroll_up = False
-            esc_press = False
+            self.esc_press = False
 
             self.player_key_press = {key: dict.fromkeys(self.player_key_press[key], False) for key in
                                      self.player_key_press}
@@ -639,7 +639,7 @@ class Game:
                     if self.input_popup:  # event update to input box
 
                         if event.key == pygame.K_ESCAPE:
-                            esc_press = True
+                            self.esc_press = True
 
                         elif self.input_popup[0] == "keybind_input" and \
                                 self.config["USER"]["control player " + str(self.control_switch.player)] == "keyboard":
@@ -655,7 +655,7 @@ class Game:
                                 self.player_key_press[player][self.player_key_bind_name[player][event_key_press]] = True
 
                         if event.key == pygame.K_ESCAPE:
-                            esc_press = True
+                            self.esc_press = True
 
                 elif event.type == JOYDEVICEADDED:
                     # Player add new joystick by plug in
@@ -731,7 +731,7 @@ class Game:
                         self.input_popup = None
                         self.remove_ui_updater(self.all_input_ui_popup)
 
-                elif self.input_cancel_button.event_press or self.input_close_button.event_press or esc_press:
+                elif self.input_cancel_button.event_press or self.input_close_button.event_press or self.esc_press:
                     self.change_pause_update(False)
                     self.input_box.text_start("")
                     self.input_popup = None
@@ -774,17 +774,17 @@ class Game:
 
             elif not self.input_popup:
                 if self.menu_state == "main_menu":
-                    self.menu_main(esc_press)
+                    self.menu_main()
 
                 elif self.menu_state == "option":
-                    self.menu_option(esc_press)
+                    self.menu_option()
 
                 elif self.menu_state == "keybind":
-                    self.menu_keybind(esc_press)
+                    self.menu_keybind()
 
                 elif self.menu_state == "lorebook":
-                    command = self.lorebook_process(esc_press)
-                    if esc_press or command == "exit":
+                    command = self.lorebook_process()
+                    if self.esc_press or command == "exit":
                         self.menu_state = "main_menu"  # change menu back to default 0
 
             self.ui_drawer.draw(self.screen)

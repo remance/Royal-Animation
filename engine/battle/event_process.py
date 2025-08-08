@@ -125,15 +125,16 @@ def event_process(self):
                 self.cutscene_playing.remove(child_event)
 
             elif child_event["Type"] == "music":  # play new music
-                if str(child_event["Object"]).lower() == "none":
+                object_name = str(child_event["Object"]).lower()
+                if object_name == "none":
                     self.current_music = None
                     self.music_left.stop()
                     self.music_right.stop()
-                elif str(child_event["Object"]).lower() == "pause":
+                elif object_name == "pause":
                     self.current_music = None  # remove current music so when game unpause it not replace event
                     self.music_left.pause()
                     self.music_right.pause()
-                elif str(child_event["Object"]).lower() == "resume":
+                elif object_name == "resume":
                     self.current_music = 1
                     self.music_left.unpause()
                     self.music_right.unpause()
@@ -146,13 +147,14 @@ def event_process(self):
                 self.cutscene_playing.remove(child_event)
 
             elif child_event["Type"] == "ambient":  # play new ambient
-                if str(child_event["Object"]).lower() == "none":
+                object_name = str(child_event["Object"]).lower()
+                if object_name == "none":
                     self.current_ambient = None
                     self.ambient.stop()
-                elif str(child_event["Object"]).lower() == "pause":
+                elif object_name == "pause":
                     self.current_ambient = None  # remove current ambient so when game unpause it not replace event
                     self.ambient.pause()
-                elif str(child_event["Object"]).lower() == "resume":
+                elif object_name == "resume":
                     self.current_ambient = 1
                     self.ambient.unpause()
                 else:
@@ -222,7 +224,7 @@ def event_process(self):
                                 event_character = character
                                 break
                     if event_character:
-                        event_character.character_event_process(child_event, event_property)
+                        event_character.character_event_process(child_event)
                     else:  # no character to play for this cutscene, no need to loop this child event further
                         self.cutscene_playing.remove(child_event)
 

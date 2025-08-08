@@ -43,8 +43,7 @@ def pick_animation(self):
                         animation_name = "Idle"
 
                 else:  # prepare animation simply play without action related stuff
-                    animation_name = self.current_action[
-                        "name"]
+                    animation_name = self.current_action["name"]
 
             if not animation_name:  # None animation_name from no moveset found, use idle
                 self.current_moveset = None

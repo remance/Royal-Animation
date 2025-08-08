@@ -5,9 +5,9 @@ from pygame.mixer import Channel
 from engine.character.character import Character
 
 
-def state_battle_process(self, esc_press):
+def state_battle_process(self):
     # print(" ")
-    if esc_press:  # pause game and open menu
+    if self.esc_press:  # pause game and open menu
         for sound_ch in range(1000):
             if Channel(sound_ch).get_busy():  # pause all sound playing
                 Channel(sound_ch).pause()

@@ -1,7 +1,7 @@
 from engine.utils.data_loading import filename_convert_readable as fcv
 
 
-def state_map_process(self, esc_press):
+def state_map_process(self):
     self.camera.out_update(self.realtime_ui_updater)
     self.ui_drawer.draw(self.screen)  # draw the UI
 
@@ -13,6 +13,6 @@ def state_map_process(self, esc_press):
         self.remove_ui_updater(self.cursor, self.city_map)
         self.change_game_state("battle")
         return fcv(selected_map)
-    elif self.player_key_press[self.main_player]["Special"] or esc_press:
+    elif self.player_key_press[self.main_player]["Special"] or self.esc_press:
         self.remove_ui_updater(self.cursor, self.city_map)
         self.change_game_state("battle")

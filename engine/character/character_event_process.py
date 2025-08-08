@@ -8,41 +8,56 @@ from engine.uibattle.uibattle import CharacterSpeechBox
 infinity = float("inf")
 
 
-def character_event_process(self, event, event_property):
+def event_hide_character(self, event):
     from engine.character.character import Character
+    self.battle_camera.remove(self.body_parts.values())
+    if self.indicator:  # also hide indicator
+        self.battle_camera.remove(self.indicator)
+    self.cutscene_update = MethodType(Character.inactive_update, self)
+    self.battle.cutscene_playing.remove(event)
 
-    if event["Type"] == "hide":
-        self.battle_camera.remove(self.body_parts.values())
-        if self.indicator:  # also hide indicator
-            self.battle_camera.remove(self.indicator)
-        self.cutscene_update = MethodType(Character.inactive_update, self)
-        self.battle.cutscene_playing.remove(event)
-    elif event["Type"] == "show":
-        if self.indicator:
-            self.battle_camera.add(self.indicator)
-        self.cutscene_update = MethodType(Character.cutscene_update, self)
-        self.battle.cutscene_playing.remove(event)
-    elif event["Type"] == "idle":  # replace idle animation, note that it replace even after cutscene finish
-        self.replace_idle_animation = event["Animation"]
-        self.battle.cutscene_playing.remove(event)
-    elif event["Type"] == "remove":
-        self.die(delete=True)
-        self.battle.cutscene_playing.remove(event)
-    elif event["Type"] == "unlock":  # unlock AI via event
-        self.ai_lock = False
-        self.event_ai_lock = False
-        self.battle.cutscene_playing.remove(event)
-        for team in self.battle.all_team_enemy:
-            if team != self.team and self not in self.battle.all_team_enemy[team]:
-                self.battle.all_team_enemy[team].add(self)
-    elif event["Type"] == "lock":  # lock AI via event
-        self.event_ai_lock = True
-        self.ai_lock = True
-        self.battle.cutscene_playing.remove(event)
-    elif not self.cutscene_event:
+
+def event_show_character(self, event):
+    from engine.character.character import Character
+    if self.indicator:
+        self.battle_camera.add(self.indicator)
+    self.cutscene_update = MethodType(Character.cutscene_update, self)
+    self.battle.cutscene_playing.remove(event)
+
+
+def event_idle_character(self, event):
+    # replace idle animation, note that it replace even after cutscene finish
+    self.replace_idle_animation = event["Animation"]
+    self.battle.cutscene_playing.remove(event)
+
+
+def event_remove_character(self, event):
+    self.die(delete=True)
+    self.battle.cutscene_playing.remove(event)
+
+
+def event_unlock_character(self, event):
+    # unlock AI via event
+    self.ai_lock = False
+    self.event_ai_lock = False
+    self.battle.cutscene_playing.remove(event)
+    for team in self.battle.all_team_enemy:
+        if team != self.team and self not in self.battle.all_team_enemy[team]:
+            self.battle.all_team_enemy[team].add(self)
+
+
+def event_lock_character(self, event):
+    # lock AI via event
+    self.event_ai_lock = True
+    self.ai_lock = True
+    self.battle.cutscene_playing.remove(event)
+
+
+def event_character(self, event):
+    if not self.cutscene_event:
         # replace previous event when there is new one to play next
-
         self.cutscene_event = event
+        event_property = event["Property"]
         if "POS" in event_property:  # move to position
             if type(event_property["POS"]) is str:
                 target_scene = self.battle.current_scene
@@ -99,6 +114,16 @@ def character_event_process(self, event, event_property):
             start_speech(self, event, event_property)
 
 
+event_functions = {"hide": event_hide_character, "show": event_show_character,
+                   "idle": event_idle_character, "remove": event_remove_character,
+                   "unlock": event_unlock_character, "lock": event_lock_character,
+                   "": event_character}
+
+
+def character_event_process(self, event):
+    event_functions[event["Type"]](self, event)
+
+
 def start_speech(self, event, event_property):
     specific_timer = None
     player_input_indicator = None
@@ -133,3 +158,5 @@ def start_speech(self, event, event_property):
                                      player_input_indicator=player_input_indicator,
                                      cutscene_event=event, add_log=event["Text ID"], voice=voice, body_part=body_part,
                                      font_size=font_size, max_text_width=max_text_width)
+
+

@@ -4,7 +4,7 @@ from engine.uibattle.uibattle import CharacterSpeechBox
 from engine.utils.common import edit_config
 
 
-def menu_option(self, esc_press):
+def menu_option(self):
     bar_press = False
     for bar in self.resolution_bar:  # loop to find which resolution bar is selected, this happens outside of clicking check below
         if bar.event_press:
@@ -17,7 +17,7 @@ def menu_option(self, esc_press):
     if not bar_press and self.cursor.is_select_just_up:
         self.remove_ui_updater(self.resolution_bar)
 
-    if self.back_button.event or esc_press:  # back to start_set menu
+    if self.back_button.event or self.esc_press:  # back to start_set menu
         self.remove_ui_updater(self.option_menu_button, self.option_text_list, self.option_menu_sliders.values(),
                                self.value_boxes.values(), self.resolution_bar)
         self.back_mainmenu()

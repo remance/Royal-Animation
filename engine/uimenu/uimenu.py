@@ -13,6 +13,9 @@ from engine.utils.data_loading import load_image
 from engine.utils.text_making import text_render_with_bg, make_long_text, minimise_number_text
 
 
+none_type = type(None)
+
+
 @lru_cache(maxsize=2 ** 8)
 def draw_text(text, font, color, ellipsis_length=None):
     # NOTE: this can be very slow. Imagine you have a very long text it has to step down each
@@ -20,7 +23,7 @@ def draw_text(text, font, color, ellipsis_length=None):
     #       if this method's performance becomes a big issue try to make a better estimate on the length
     #       and start from there and move up or down in length.
     #
-    #       we have cache in place so hopefully it will be enough to save performance.
+    #       we have cache in place, so hopefully it will be enough to save performance.
 
     if ellipsis_length is not None:
         for i in range(len(text)):
@@ -1397,19 +1400,17 @@ class ListUI(UIMenu, Containable):
 
         ui_font = Game.ui_font
 
-        if not type(scroll_box_index) == int:
+        if not type(scroll_box_index) in (int, tuple):
             raise TypeError()
-        if not type(rect) == tuple:
-            raise TypeError()
-        if not type(items) == tuple:
+        if not type(items) is tuple:
             raise TypeError(items)
-        if not type(selected_index) in (type(None), int):
+        if not type(selected_index) in (none_type, int):
             raise TypeError(type(selected_index))
-        if not type(highlighted_index) in (int, type(None)):
+        if not type(highlighted_index) in (int, none_type):
             raise TypeError(highlighted_index)
-        if not type(in_scroll_box) == bool:
+        if not type(in_scroll_box) is bool:
             raise TypeError()
-        if not type(hold_scroll_box) in (type(None), int):
+        if not type(hold_scroll_box) in (none_type, int):
             raise TypeError(hold_scroll_box)
 
         # has_scroll = cls.get_has_scroll(items, item_size)
@@ -1435,7 +1436,7 @@ class ListUI(UIMenu, Containable):
         font2 = Font(ui_font["text_paragraph"], int(32 * Game.screen_scale[1]))
         font3 = Font(ui_font["text_paragraph"], int(24 * Game.screen_scale[1]))
 
-        assert type(scroll_box_index) == int, type(scroll_box_index)
+        assert type(scroll_box_index) is int, type(scroll_box_index)
         size = rect[2:]
 
         image = make_image_by_frame(cls.get_frame(), size)

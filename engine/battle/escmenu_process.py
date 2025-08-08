@@ -4,14 +4,13 @@ from engine.uimenu.uimenu import ListAdapter
 from engine.utils.common import edit_config
 
 
-def escmenu_process(self, esc_press: bool):
+def escmenu_process(self):
     """
     User interaction processing for ESC menu during battle
     :param self: Battle object
-    :param esc_press: esc button
     :return: special command that process in battle loop
     """
-    if esc_press and self.esc_menu_mode == "menu":  # in menu or option
+    if self.esc_press and self.esc_menu_mode == "menu":  # in menu or option
         self.back_to_battle_state()
 
     elif self.esc_menu_mode == "menu":  # esc menu
@@ -61,14 +60,14 @@ def escmenu_process(self, esc_press: bool):
                 break  # found clicked button, break loop
 
     elif self.esc_menu_mode == "lorebook":  # lore book
-        command = self.lorebook_process(esc_press)
+        command = self.lorebook_process()
         if command == "exit":
             self.esc_menu_mode = "menu"  # go back to start_set esc menu
             self.add_ui_updater(self.battle_menu_button.values(),
                                 self.scene_translation_text_popup)  # add start_set esc menu buttons back
 
     elif self.esc_menu_mode == "dialogue":  # dialogue log
-        if self.esc_dialogue_button.event or esc_press:  # confirm or esc, close option menu
+        if self.esc_dialogue_button.event or self.esc_press:  # confirm or esc, close option menu
             self.esc_menu_mode = "menu"  # go back to start_set esc menu
             self.remove_ui_updater(self.esc_dialogue_button, self.dialogue_box)  # remove option menu sprite
             self.add_ui_updater(self.battle_menu_button.values(),
@@ -82,7 +81,7 @@ def escmenu_process(self, esc_press: bool):
                             self.config)
                 self.game.change_sound_volume()
 
-        if self.esc_option_menu_button.event or esc_press:  # confirm or esc, close option menu
+        if self.esc_option_menu_button.event or self.esc_press:  # confirm or esc, close option menu
             self.esc_menu_mode = "menu"  # go back to start_set esc menu
             self.remove_ui_updater(self.esc_option_menu_button, self.esc_slider_menu.values(),
                                    self.esc_value_boxes.values(),

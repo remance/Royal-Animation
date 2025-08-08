@@ -3,7 +3,7 @@ import sys
 from pygame import quit as pg_quit
 
 
-def state_menu_process(self, esc_press):
+def state_menu_process(self):
     for key, stage in self.scenes.items():
         stage.update(self.camera_left, self.camera_y_shift)
         self.camera.update(self.shown_camera_pos, self.battle_cameras[key])
@@ -30,11 +30,11 @@ def state_menu_process(self, esc_press):
                 self.back_to_battle_state()
                 return "Throne"
 
-        elif self.input_cancel_button.event_press or esc_press:
+        elif self.input_cancel_button.event_press or self.esc_press:
             self.change_pause_update(False)
             self.input_box.text_start("")
             self.input_popup = None
             self.remove_ui_updater(self.input_ui_popup, self.confirm_ui_popup)
 
     else:
-        self.escmenu_process(esc_press)
+        self.escmenu_process()

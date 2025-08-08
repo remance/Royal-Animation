@@ -43,6 +43,22 @@
 <img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_revvy_doll.png?raw=true" width="200" height="200">
 </p>
 
+## Jar-bairn
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_jarkid.png?raw=true" width="200" height="200"></a>
+
+## Godrick the Golden (Pre-Grafting)
+
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_godrick.png?raw=true" width="200" height="200"></a>
+
+
+## Nightreign Libra (Version: Doll)
+
+<p float="left">
+<img src="https://github.com/remance/elden-ring-ATEW/blob/main/portrait_libra.png?raw=true" width="200" height="200">
+</p>
+
+
 For any suggestions or bugs, feel free to report them in the [**Issues
 **](https://github.com/remance/Royal-Ordains/issues)
 page.

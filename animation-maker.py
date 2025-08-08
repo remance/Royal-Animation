@@ -1336,7 +1336,7 @@ class Model:
                                 #     else:
                                 #         self.animation_part_list[edit_frame][part_index][4] = 1
                             elif "d_zoom" in edit_type:
-                                zoom_value = int(edit_type.split(":")[-1])
+                                zoom_value = int(float(edit_type.split(":")[-1]))
                                 if zoom_value > 0 and zoom_value != self.animation_part_list[edit_frame][part_index][6]:
                                     zoom_diff_percent = zoom_value / self.animation_part_list[edit_frame][part_index][6]
                                     if zoom_diff_percent < 1:
@@ -1350,7 +1350,7 @@ class Model:
                                         old_pos[0] + (old_pos[0] * zoom_diff_percent),
                                         old_pos[1] + (old_pos[1] * zoom_diff_percent))
                             elif "dplus_zoom" in edit_type:
-                                zoom_value = int(edit_type.split(":")[-1])
+                                zoom_value = int(float(edit_type.split(":")[-1]))
                                 if zoom_value:
                                     new_zoom = round(self.animation_part_list[edit_frame][part_index][6] + zoom_value,
                                                      1)
