@@ -21,7 +21,7 @@ from engine.uimenu.uimenu import MenuCursor, NameList, MenuButton, TextPopup, In
 from engine.utils.data_loading import csv_read, load_image, load_images, load_base_button, recursive_image_load, \
     filename_convert_readable as fcv
 from engine.utils.rotation import rotation_xy
-from engine.utils.sprite_altering import sprite_rotate
+from engine.utils.sprite_altering import sprite_rotate, apply_sprite_effect, apply_sprite_colour
 
 main_dir = split(abspath(__file__))[0]
 main_data_dir = join(main_dir, "data")
@@ -29,9 +29,8 @@ current_dir = join(main_dir, "animation-maker")  # animation maker folder
 current_data_dir = join(main_dir, "animation-maker", "data")  # animation maker folder
 sys.path.insert(1, current_dir)
 
-from script import colour, listpopup, pool, showroom  # keep here as it need to get sys path insert
+from script import listpopup, pool, showroom  # keep here as it need to get sys path insert
 
-apply_colour = colour.apply_sprite_colour
 setup_list = listpopup.setup_list
 list_scroll = listpopup.list_scroll
 popup_list_open = listpopup.popup_list_open
@@ -117,42 +116,8 @@ def reload_animation(animation, char, specific_frame=None):
               this_image is not None]
     for frame_index in range(max_frame):
         if (not specific_frame and activate_list[frame_index]) or (specific_frame and frame_index == specific_frame):
-            for prop in frame_property_select[frame_index] + anim_property_select:
-                if "effect" in prop:
-                    size = frames[frame_index].get_size()
-                    data = pygame.image.tobytes(frames[frame_index],
-                                                "RGBA")  # convert image to string data for filtering effect
-                    surface = Image.frombytes("RGBA", size, data)  # use PIL to get image data
-                    alpha = surface.split()[-1]  # save alpha
-                    if "grey" in prop:  # not work with just convert L for some reason
-                        surface = surface.convert("L")
-                        surface = ImageOps.colorize(surface, black="black", white="white").convert("RGB")
-                    if "blur" in prop:
-                        surface = surface.filter(
-                            ImageFilter.GaussianBlur(
-                                radius=float(
-                                    prop[prop.rfind("_") + 1:])))  # blur Image (or apply other filter in future)
-                    if "contrast" in prop:
-                        enhancer = ImageEnhance.Contrast(surface)
-                        surface = enhancer.enhance(float(prop[prop.rfind("_") + 1:]))
-                    if "brightness" in prop:
-                        enhancer = ImageEnhance.Brightness(surface)
-                        surface = enhancer.enhance(float(prop[prop.rfind("_") + 1:]))
-                    if "fade" in prop:
-                        empty = pygame.Surface(size, pygame.SRCALPHA)
-                        empty.fill((255, 255, 255, 255))
-                        empty = pygame.image.tobytes(empty, "RGBA")  # convert image to string data for filtering effect
-                        empty = Image.frombytes("RGBA", frames[frame_index].get_size(),
-                                                empty)  # use PIL to get image data
-                        surface = Image.blend(surface, empty, alpha=float(prop[prop.rfind("_") + 1:]) / 10)
-                    surface.putalpha(alpha)  # put back alpha
-                    surface = surface.tobytes()
-                    surface = pygame.image.frombytes(surface, size, "RGBA")  # convert image back to a pygame surface
-                    if "colour" in prop:
-                        colour = prop[prop.rfind("_") + 1:]
-                        colour = [int(this_colour) for this_colour in colour.split(".")]
-                        surface = apply_colour(surface, colour)
-                    frames[frame_index] = surface
+            frames[frame_index] = apply_sprite_effect(frames[frame_index],
+                                                      frame_property_select[frame_index] + anim_property_select)
         filmstrip_list[frame_index].add_strip(frames[frame_index])
     animation.reload(frames)
 
@@ -517,7 +482,7 @@ class BodyHelper(pygame.sprite.Sprite):
                 new_box.blit(text_surface, text_rect)
                 self.part_images_original.append(new_box)
         self.part_images = [image.copy() for image in self.part_images_original]
-        self.selected_part_images = [apply_colour(image, (34, 177, 76), white_colour=False) for image in
+        self.selected_part_images = [apply_sprite_colour(image, (34, 177, 76), white_colour=False) for image in
                                      self.part_images_original]
         self.part_selected = []
         self.stat1 = {}
@@ -1851,20 +1816,21 @@ confirm_ui = InputUI(load_image(data_dir, screen_scale, "input_ui.png", ("ui", "
                      (screen_size[0] / 2, screen_size[1] / 2))  # user confirm input ui box popup
 confirm_ui_popup = (confirm_ui, input_ok_button, input_cancel_button)
 
-colour_ui = InputUI(load_image(current_data_dir, screen_scale, "colour.png", "animation_maker_ui"),
+colour_ui = InputUI(load_image(data_dir, screen_scale, "input_ui.png", ("ui", "mainmenu_ui")),
                     (screen_size[0] / 2, screen_size[1] / 2))  # user text input ui box popup
 colour_wheel = ColourWheel(load_image(main_data_dir, screen_scale, "rgb.png",
                                       subfolder=("animation", "sprite")),
                            (colour_ui.pos[0], colour_ui.pos[1] / 1.5))
-colour_input_box = InputBox((colour_ui.rect.center[0], colour_ui.rect.center[1] * 1.2),
+colour_input_box = InputBox((colour_ui.rect.center[0], colour_ui.rect.center[1] * 1.15),
                             input_ui.image.get_width())  # user text input box
 
-colour_ok_button = MenuButton(image_list, pos=(colour_ui.rect.midleft[0] + image_list[0].get_width(),
-                                               colour_ui.rect.midleft[1] + (image_list[0].get_height() * 2)),
-                              key_name="confirm_button", layer=31)
-colour_cancel_button = MenuButton(image_list, pos=(colour_ui.rect.midright[0] - image_list[0].get_width(),
-                                                   colour_ui.rect.midright[1] + (image_list[0].get_height() * 2)),
-                                  key_name="cancel_button", layer=31)
+colour_ok_button = MenuButton(image_list, pos=(input_ui.rect.midleft[0] + image_list[0].get_width(),
+                                              input_ui.rect.midleft[1] + image_list[0].get_height()),
+                             key_name="confirm_button", layer=31)
+colour_cancel_button = MenuButton(image_list,
+                                 pos=(input_ui.rect.midright[0] - image_list[0].get_width(),
+                                      input_ui.rect.midright[1] + image_list[0].get_height()),
+                                 key_name="cancel_button", layer=31)
 colour_ui_popup = (colour_ui, colour_wheel, colour_input_box, colour_ok_button, colour_cancel_button)
 
 box_img = load_image(current_data_dir, screen_scale, "property_box.png", "animation_maker_ui")
@@ -2929,6 +2895,7 @@ while True:
                         pygame.image.save(frame, animation_name + "_" + str(index + 1) + ".png")
 
             elif text_input_popup[1] == "export_full_animation":
+                """recreate animation sprites to create images that display all existing body parts"""
                 min_x = float("infinity")
                 max_x = -float("infinity")
                 min_y = float("infinity")
@@ -2979,7 +2946,8 @@ while True:
                                 new_target = (part[2][0] + base_point[0], part[2][1] + base_point[1])
                                 rect = part_rotated.get_rect(center=new_target)
                                 image.blit(part_rotated, rect)
-                        # image = smoothscale(image, (image.get_width() / model.size, image.get_height() / model.size))
+                        image = apply_sprite_effect(image, model.frame_list[index]["animation_property"] +
+                                                    model.frame_list[index]["frame_property"])
                         pygame.image.save(image, animation_name + "_" + str(index + 1) + ".png")
 
             elif text_input_popup[1] == "duplicate_animation":

@@ -72,9 +72,10 @@ def state_battle_process(self):
         if self.screen_shake_value > decrease:
             decrease = self.screen_shake_value
         self.screen_shake_value -= (self.dt * decrease)
-        self.shake_camera()
         if self.screen_shake_value < 0:
             self.screen_shake_value = 0
+        else:
+            self.shake_camera()
 
     current_frame = self.camera_pos[0] / self.screen_width
     if current_frame == 0.5:  # at center of first scene
